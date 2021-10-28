@@ -1,0 +1,21 @@
+---
+title: "SL rapport 2020"
+author: "Akvo - data science"
+date: "2/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::read_chunk('rapport_wells.R')
+options(knitr.kable.NA = '-')
+
+
+```
+
+```{r start}
+```
+
+```{r Hardware, echo=TRUE, message=TRUE, warning=TRUE}
+wp_supply_type
+```

@@ -1,0 +1,239 @@
+---
+title: "Progress on Household Drinking Water, Sanitation and Hygiene in Sierra Leone"
+author: ""
+date: "9/30/2020"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes
+    toc_depth: '3'
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    df_print: paged
+    theme: lumen
+    toc: yes
+    toc_depth: 5
+header-includes:
+  - \usepackage{fontspec}
+  - \setmainfont{Assistant-Regular}
+---
+\pagebreak
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+library(easypackages)
+libraries("tidyverse","knitr","kableExtra","dlookr","scales","reshape2","extrafont","extrafontdb")
+household <- read.csv("../2020_Aug_Report/households.csv")
+waterpoints <- read.csv("../Data/wp_data_2017.csv")
+
+minimal <- theme_set(theme_minimal(base_size = 17))
+minimal
+color_hex <- c("#195675","#008790","#974458","#f6b059","#f9f871")
+```
+
+\pagebreak
+
+# \textcolor[HTML]{03AD8C} {Acronymns}
+* **WHO** - World Health Organisation
+* **UNICEF**  - The United Nations Children's Fund
+* **JMP** - Joint Monitoring Program
+* **SDG** - Sustainable Development Goals
+* **WASH** - Water, Sanitation and Hygiene
+* **E. coli** - Escherichia Coli
+* **MowR** - Ministry of Water Resources 
+* **MoHS**  - Ministry of Health and Sanitation
+
+\pagebreak
+
+# \textcolor[HTML]{03AD8C} {Executive Summary}
+In Sierra Leone, less than 40% of households have access to clean, safe drinking water.
+Faecal contamination, in particular, poses a serious threat to the health of Sierra Leoneans, spreading water-borne diseases such as Cholera. A lack of large-scale, reliable data on water quality makes it increasingly difficult for governments to effectively address this problem. Under the Sustainable development goals (SDG), target number 6 sets an ambition of universal access to clean water and sanitation for all. WHO/UNICEF Joint Monitoring Programme (JMP) developed a set of core questions for monitoring water, sanitation and hygiene at a household level. In line with JMP vision,  to accelerate progress towards universal and sustainable access to water and sanitation to underserved populations in the developing world, this report evaluates and describes the progress made at the household level, access to safe drinking water, sanitation facilities and access to handwashing in Sierra Leone. Preliminary results from the data collected in measuring the progress indicate that:
+
+ * At least 57% of all households in Sierra Leone have no water or access drinking water using unimproved water sources. 
+ * Only 6 % of the total population access safely managed water.
+ * 32% of all households either open defacte or have unimproved sanitation facilities and an additional 45% have access to basic sanitation facilities.
+ * Almost 9 in 10 households (87%) lack a hand washing facility in their premises. 
+ * 81% of all households that dont have a hand washing facilities are at a higher risk of their drinking water being contaminated.
+
+\pagebreak
+
+# \textcolor[HTML]{03AD8C} {Introduction}
+WHO estimated that 844 million people globally  lack access to safe drinking water. Furthermore, roughly 2.4 billion people globally lack proper sanitation facilities. Lack of both water and sanitation facilities contribute to around 700,00 deaths of children in developing countries annually. Studies and outbreak investigations globally have found a direct association between poor water quality and infectious diarrhoea. This causal relationship is not only due to the fact that water is contaminated at the source or during the distribution, but also how water is stored and accessed in households. Around 70 percent of these deaths can be prevented if proper measures regarding drinking water are implemented.  
+
+Water Quality by popular definition is “The chemical, physical and biological characteristics of water with respect to its designated use”. Water has many uses such as drinking, swimming, agriculture and even industrial use. Designated use of water is bound by legal measures set both globally and nationally to monitor and control water pollutants. These measures are called Water Quality Standards. If the water fails to attain the standards, then it’s contaminated. 
+One of the ways the quality of drinking water can be contaminated is either through presence of chemical or biological contaminants. Chemical contaminants include Fluoride, Iron, Chlorine(excess), Arsenic, or salts. Biological contaminants include living microorganisms such as protozoa and bacteria. Biological contaminants are more hazardous and pose serious health risks to humans. Of the most popular and hazardous biological contaminants found in drinking water is Escherichia Coli  (E. coli).
+
+Acting on water quality data can greatly reduce biological contamination and diseases causing deaths. In Sierra Leone, less than 40% of households have access to clean, safe drinking water. Faecal contamination, in particular, poses a serious threat to the health of citizens. Nearly 60% of Sierra Leone’s population uses pit toilets as toilets. This makes it easy for most water sources to have a higher risk of contamination. Doris Bah, erstwhile National WASH Coordinator, Ministry of Health and Sanitation attributed this situation to lack of appropriate treatment facilities by most service providers. In 2017, a multiple indicator cluster survey (MICS) performed by the Statistics department of Sierra Leone revealed that all water sources, both at the household level and at the source were found to contain 95% of E. coli contamination. WHO/UNICEF Joint Monitoring Programme for water supply produced a set of standardized questionnaires administered to households and water facilities that monitored  SDG Goal of attaining clean water and sanitation by 2030.
+
+Through the ministry of water resources in Sierra Leone, the government and Akvo decided to work together to design and set up a WASH monitoring system in Sierra Leone. The aim of this system is to support the government in undertaking routine monitoring of WASH indicators in 11 districts. Data collected for the WASH MIS System was anchored on JMP core questions at household level. The system objectives were as follows: 
+
+* To determine whether household water is safe for drinking by meeting the WHO guideline for drinking water quality using Most Probable Number (MPN) of E. coli 
+* To determine overtime whether there is an improvement in the quality of drinking water amongst households.
+
+
+# \textcolor[HTML]{03AD8C} {Analysis}
+
+## Drinking Water in Households
+Proportion of population using safely managed drinking water services is defined as the proportion of population using an improved drinking water source which is accessible on premises, available when needed, and free of faecal (and priority chemical) contamination (JMP). An ambitious rung in the JMP in the service level ladder, data aggregated using this approach reveal that approximately 34% of households in Sierra Leone fetch their drinking water from Basic Water source. This is closely followed by 32% that have no service at all. In Western Rural and Kono, 7 in 10 households have their drinking water as unimproved while in Kono, a similar proportion which represent the majority fetch their water from open bodies such as rivers, lakes and irrigation channels (No service at all)
+
+```{r WaterSourceClassification, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Code by Carmen, not working in MY PDF
+# source_per_district <- data.frame(rbind(table(household$location_district, household$drinking_water_jmp)))
+# source_per_district$total <- rowSums(source_per_district)
+# source_per_district_per <- data.frame(apply(source_per_district,2,function(x) round((x/source_per_district$total)*100,2)))
+# source_per_district_per$District <- row.names(source_per_district_per)
+# row.names(source_per_district_per) <- NULL
+# 
+# water_point_district <- melt(table(waterpoints$district))
+# names(water_point_district) <- c("District", "Nr of Unicef waterpoints")
+# 
+# source_per_district_per <- source_per_district_per %>% 
+#   left_join(water_point_district) %>%
+#   rename_all(funs(stringr::str_replace_all(., '\\.', ' '))) %>%
+#   select(District, `Nr of Unicef waterpoints`, `Safely managed`, `Basic`, `Limited`, `Unimproved`, `No service`)
+# knitr::kable(source_per_district_per, format="markdown", caption = "Percent of housholds with a specific drinking water service level")
+
+hh_drinkingWater <- table(household$location_district, household$drinking_water_jmp, dnn=c("District", "JMP Drinking Water Ladder (Values in %)"))
+hh_drinkingWater  <- prop.table(hh_drinkingWater, margin = 2)  * 100
+hh_drinkingWater <- round(prop.table(hh_drinkingWater, margin = 2)*100, 1)
+hh_drinkingWater <- as.data.frame.matrix(hh_drinkingWater)
+hh_drinkingWater %>%
+  rename(`No service (%)` = `No service`,
+         `Unimproved (%)` = Unimproved,
+         `Limited (%)` = Limited,
+         `Basic (%)` = Basic,
+         `Safely managed` = `Safely managed`) %>%
+  kable(caption = "JMP Drinking Water Ladder of Sampled Households",booktabs = T) %>%
+  kable_styling(latex_options = c("striped","condensed","hold_position"), full_width = T)
+```
+
+## Sanitation
+JMP sanitation ladder is used as a guiding principle that compares sanitation and its service levels. This ladder builds on the type of sanitation facility present in the household reinforced with various management practices. A safely managed sanitation facility which is the topmost rung in the  service ladder should be located at the premises, not to be shared with other households and excreta produced should either be treated and disposed off in situ, stored temporarily and then emptied and transported to treatment off-site, or transported through a sewer with wastewater and then treated off-site. On the contrary, an unimproved sanitation facility consists a pit latrine that doesn't have a slab or it's hanging or a bucket latrine. 
+Most of the sanitation facilities in Sierra Leone are improved, this is evidence from the bar chart below that illustrates this context. For instance,  88% of sampled households in Kenema had improved sanitation facilities and near similar percentage, (85%) of households in Bo also had improved sanitation facilities. On the contrary, around 5 out of 10 households in Tonkolili had improved sanitation facilities. Below is a comprehensive stacked bar chart that shows the sanitation service levels across districts.  
+
+```{r include=FALSE}
+household <- household %>%
+  mutate(flush_to = as.character(flush_to)) %>%
+  mutate(flush_to = replace_na(flush_to, "unknown")) %>%
+  mutate(sanitation_jmp = 
+           ifelse(
+             sdg_sanitation == "Improved" & 
+               share_facility == "No" &
+               flush_to == "piped sewer system",
+             "Safely managed", 
+             ifelse(
+               sdg_sanitation == "Improved" & 
+                 share_facility == "No"&
+                 flush_to != "piped sewer system",
+               "Basic", 
+               ifelse(
+                 sdg_sanitation == "Improved" & 
+                   share_facility  == "Yes",
+                 "Limited", 
+                 ifelse(
+                   sdg_sanitation == "Unimproved",
+                   "Unimproved", "Open Defecation"))))) %>%
+  mutate(sanitation_jmp = factor(
+    sanitation_jmp, 
+    levels = c( "Open Defecation",
+                "Unimproved",         
+                "Limited", 
+                "Basic", 
+                "Safely managed")))
+```
+
+```{r SanitationLadder, echo=FALSE, message=FALSE, warning=FALSE, fig.align="center",fig.width=25, fig.height=17, fig.pos = "H", fig.cap="Sanitation Ladder Across Districts  of Sierra Leone"}
+household %>%
+  filter(!is.na(sanitation_jmp)) %>%
+  group_by(location_district) %>%
+  count(sanitation_jmp) %>%
+  mutate(prop = n/sum(n)) %>%
+  mutate_if(is.numeric, round, digits=2) %>%
+  ggplot(aes(x = location_district, y =  prop)) +
+  geom_col(aes(fill = sanitation_jmp), position = "fill") +
+  labs(fill = "key", subtitle = "") +
+  theme(legend.position = "top", legend.title = element_blank(), axis.text = element_text(size = 25), legend.text = element_text(size = 27)) +
+  scale_y_continuous(labels = scales::percent) +
+  geom_text(aes(label = scales::percent(prop),
+                y = prop,
+                group = sanitation_jmp),
+            position = position_fill(), size=8,
+            vjust = 1.5) +
+  labs(x="", y="") + 
+  scale_fill_manual(values =  color_hex)
+```
+
+## Hand Washing
+A household will meet the basic criteria of hand washing facility if there is presence of a handwashing facility that is equipped with soap and water and available on premises. It will be limited if a handwashing facility that is on premises, lacks soap and water. 87% of all households lacked a hand washing facility. Districtwise, at least 9  in 10 households in Bo, Bonthe, Moyamba and Pujehun didn't have one. Further, 84% of all households that didn't have handwashing facilities, had their drinking water highly contaminated. Nonetheless, there was no strong association between presence/absence of handwashing facility and the risk of water being contaminated (See Annex 1)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align="center",fig.width=25, fig.height=13, fig.pos = "H", fig.cap="Handwashing Ladder Across Districts  of Sierra Leone"}
+color_hex_handWash <- c("#195675","#f6b059")
+household %>%
+  group_by(location_district) %>%
+  count(sdg_hand_washing) %>%
+  mutate(prop = n/sum(n)) %>%
+  mutate_if(is.numeric, round, digits=2) %>%
+  ggplot(aes(x = location_district, y =  prop)) +
+  geom_col(aes(fill = sdg_hand_washing), position = "fill") +
+  labs(fill = "key", subtitle = "") +
+  theme(legend.position = "top", legend.title = element_blank(), axis.text = element_text(size = 25), legend.text = element_text(size = 27)) +
+  scale_y_continuous(labels = scales::percent) +
+  geom_text(aes(label = scales::percent(prop),
+                y = prop,
+                group = sdg_hand_washing),
+            position = position_fill(), size=8,
+            vjust = 1.5) +
+  labs(x="", y="") + 
+  scale_fill_manual(values =  color_hex_handWash)
+```
+
+
+# \textcolor[HTML]{03AD8C} {Annex 1}
+
+## Tests for Independence
+In a two way contingency table, its natural to ask if and how X and Y variables are related. If there is no relationship between X and Y, then the categorical variables are independent i.e. probability distribution of X is not affected by presence of Y. When performing a test for independence we state both the Null hypothesis and the alternate hypothesis.
+
+* **The null Hypothesis**: There is no relationship between presence of a hand washing facility and risk of e.coli contamination in drinking water. 
+* **Alternate Hypothesis**: There is a relationship between presence of a hand washing facility and risk of e.coli contamination in drinking water.
+ 
+There are two ways to measure tests for independence. Fisher's exact and Pearson's Chi-Square test for independence. For this, we'll use Chi-Square test as Fisher's exact test is relatively used for small sample sizes. Using R statistical programming language, 
+
+```{r chisq, echo=TRUE, message=FALSE, warning=FALSE}
+library(vcd)
+# Import the Dataset to the Workspace
+householdData <- read.csv("householdData.csv")
+
+# Contingency table
+handWash_RiskLevel <- table(householdData$sdg_hand_washing, householdData$RiskLevel, dnn = c("HandWash","RiskLevel"))
+handWash_RiskLevel
+
+# Test for independence
+chiTest <- chisq.test(handWash_RiskLevel)
+chiTest
+
+# Check both Observed and Expected Values
+chiTest$observed
+chiTest$expected
+
+# Mosaic Plot
+mosaic(~HandWash + RiskLevel,
+       direction = c("v", "h"),
+       data = handWash_RiskLevel, shade = T)
+```
+
+From the above statistical test, we can conclude that there is a relationship between presence of a handwashing facility in a household and risk of water being contaminated. The P-value is lower than the significance level of 5%.
+
+## Measures of Association
+Measures of association quantifies the relationship of X and Y variable once tests for independence has been carried out. This measurement will be asymmetric due to the fact that Presence of a hand washing facility (X Variable) is an explanatory variable and the risk level of contamination (Y Variable) is a response variable. Cramér's V test measures association of nominal variables. 
+
+```{r}
+assocstats(handWash_RiskLevel)
+```
+
+From the code output above, the association is weak. As an inference, presence/absence is not an enough explanatory variable in predicting high risk level of E. coli due to the fact that Cramér's V coefficient is very small.

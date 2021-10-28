@@ -1,0 +1,113 @@
+---
+title: "UNICEF Sierra Leone Household Survey Code Review"
+ipsum_meta:
+  twitter_card: "Summary info for the Twitter Card"
+  twitter_site: "\\@sitehandle"
+  twitter_creator: "\\@creatorhandle"
+  og_url: "https\\://example.com/open/graph/finalURLfor/this"
+  og_description: "A modest size description of the content"
+  og_image: "https\\://example.com/open/graph/imageURLfor/this"
+author: "Akvo Foundation"
+date: "8/20/2020"
+output:
+  html_document:
+    highlight: textmate
+    number_sections: no
+    smooth_scroll: no
+    theme: lumen
+    toc: yes
+    toc_collapsed: no
+    toc_depth: 5
+    toc_float: no
+  word_document:
+    toc: yes
+    toc_depth: '5'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+## Household Data
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+library(easypackages)
+libraries("tidyverse","dlookr","kableExtra","knitr")
+household <- read.csv("../output/SL_subset.csv")
+```
+
+Household Data has been decoded using standard JMP Indicators, derived columns created include main source of water, round trip in minutes, basic access to a hand washing facility and type of Sanitation Facility
+
+```{r message=F, warning=F, include=F}
+# LOCATIE navragen bij bouzmane - TRANSLATIONS FOR THIS?
+
+household <- household %>% 
+  # DATA TYPES
+  mutate(geolocation_latitude = as.numeric(as.character(geolocation_latitude))) %>%
+  mutate(geolocation_longitude = as.numeric( as.character(geolocation_longitude))) %>%
+  # FILTERS
+  filter(!is.na(main_source_water)) %>%
+  filter(geolocation_longitude < 0) %>%
+  # RECODE FOR JMP
+  mutate(sdg_improved_source = recode(
+    main_source_water, 
+    "unprotected dug well" = "Unimproved", 
+    "piped water to yard/plot" = "Improved", 
+    "protected dug well" = "Improved", 
+    "unprotected spring" = "Unimproved", 
+    "rainwater collection" = "Improved",
+    "protected spring" = "Improved", 
+    "piped water into dwelling" = "Improved", 
+    "tubewell/borehole" = "Unimproved", 
+    "public tap/standpipe" = "Improved", 
+    "surface water" = "Surface water")) %>%
+  mutate(sdg_round_trip = recode(
+    round_trip_minutes, 
+    "Less than 30 minutes" = "Less than 30 minutes",
+    "More than 30 minutes but less than 1 hr" = "More than 30 minutes", 
+    "More than 1 hr but less than 2hrs" = "More than 30 minutes", 
+    "Water on premises" = "Water on premises", 
+    "More than 2 hrs" = "More than 30 minutes")) %>%
+  mutate(sdg_hand_washing =  recode(
+    hand_wash_observe,
+    "Yes" = "Basic/Limited",
+    "No" = "No facility"
+  )) %>%
+  mutate(sdg_sanitation = recode(
+    toilet_facility_type,
+    "bush or field" = "Open Defecation",
+    "pit latrine with concrete slab" = "Improved",
+    "pit latrine with other type of slab" = "Improved",
+    "ventilated improved pit latrine (vip)" = "Improved",
+    "composting toilet" = "Improved",
+    "pit latrine without slab/open pit" = "Unimproved", 
+    "flush/pour flush" = "Improved",
+    "uses toilet of neighbor" = "Unimproved",
+    "bucket" = "Unimproved",
+  ))
+```
+
+The dataset contains 22 columns and 2425 rows, the column with the most missing values is "flush_to" and "toilet facility type". with a respective missing percentage of 100 and 99.5. The two columns will be discarded when doing analysis.
+
+```{r household-variables, echo=FALSE}
+hh_glimspse <- household %>%
+  select(-c("X","identifier", "flush_to","location_sections", "geolocation_latitude","geolocation_longitude","geolocation_elevation","mpn.100ml"))
+hh_glimspse <- diagnose(hh_glimspse)
+
+hh_glimspse <- hh_glimspse %>%
+  select(-c("unique_count","unique_rate","missing_percent"))
+
+# kable
+hh_glimspse %>%
+  kable(caption = "Overview of the Variables in Household") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = T)
+```
+
+ Points to Confirm:
+ 
+ * Is this the final dataset with the rows and the columns?
+ * I've inquired about the analysis and also, you Irene and Mert have worked on it. Are there no documents ready that have been writtten based not only with this code but other that I can use to create a report. 
+
+ 
+ 
+ 

@@ -1,0 +1,204 @@
+---
+title: "Sierra Leone report"
+author: "Akvo - data science"
+date: "2/25/2020"
+output:
+  pdf_document:
+    toc: yes
+  word_document:
+    fig_caption: yes
+    keep_md: yes
+    pandoc_args:
+    - --reference-doc
+    - AkvoTemplate.docx
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, cache=FALSE)
+knitr::read_chunk('rapport_hh.R')
+options(knitr.kable.NA = '-')
+
+```
+
+## Background
+The world faces an invisible crisis of water quality. Its impacts are wider, deeper, and more uncertain than previously thought and requires urgent attention. 
+
+
+## Goals 
+The objective of water quality monitoring is to obtain quantitative information on the physical, chemical, and biological characteristics of the water. Specifically in this case:
+
+## Sample and Population Characteristics
+
+
+```{r start, include=FALSE}
+```
+
+```{r processing, include=FALSE}
+```
+
+```{r sample, include=FALSE}
+```
+
+For the sample 1100 communities that live near the UNICEF wells were selected. These communities are spread over 45 chiefdoms as can be seen in the table below.
+
+```{r results, echo=FALSE}
+row.names(location) <- location$` `
+location <- t(location[,c("Sample", "Country")])
+knitr::kable(location, format="markdown")
+```
+
+The figure below shows the spread of the households surveyed compared to the location of the UNICEF wells. There is quite some visual overlap in the location apart from the west area of the ditrict Bonthe and the north, east and south areas of Koinadugu. Because the districts ..... was chosen to survey households further from the wells. 
+
+```{r fig.width=6, fig.height=4, dpi=300, fig.cap=''}
+general_map
+```
+
+## Water Quantity
+
+```{r water, include=FALSE}
+```
+
+To get an indication of the quality of the drinking water sources used, water sources are often categorised. The table below shows the categories used by the JMP. The JMP uses the type of water source to form the categories: piped water into dwelling, plot or yard, other improved sources and unimproved sources. 
+  
+
+```{r water_source_level, fig.width=4, fig.height=2, dpi=400, fig.cap=''}
+
+DW_SL <- data.frame('Service level' = c("Safely managed", "Basic", "Limited", "Unimproved", "No service"),
+                    "Definition" = 
+                      c("Drinking water from an improved source which is located on premises, available when needed and free of faecal and priority contamination", 
+                        "Drinking water from an improved source provided collection time is not more than 30 minutes for a roundtrip, including queuing", 
+                        "Drinking water from an improved source provided collection time exceeds 30 minutes for a roundtrip, including queuing",
+                        "Drinking water from an unprotected dug well or unprotected spring", 
+                        "Drinking water collected directly from a river, dam, lake, pond, stream or irrigation channel"))
+
+
+WP_SL <- data.frame("Status" = c("Unimproved", "Other improved", "Piped into dwelling, plot or yard"),
+                    "Water sources" = 
+                      c("Unprotected dug well, unprotected spring, cart with small tank/drum, surface water (river, dam, lake, pond, stream, canal, irrigation channels)", 
+                        "Public taps or standpipes, tube wells or boreholes, protected dus wells, protected springs or rainwater collection", 
+                        "Piped household water connection located inside the user's dwelling, plot or yard"))
+
+knitr::kable(WP_SL, format="markdown")
+
+```
+  
+The classification of the water source is used to indicate the service level of the water source. The table below again shows the service levels of water sources as indicated by the JMP. Next to the classification of the water sources they use the distance of the water source to the household to indicate a service level. 
+
+  
+```{r drinking_water_level, fig.width=4, fig.height=2, dpi=400, fig.cap=''}
+knitr::kable(DW_SL, format="markdown")
+```
+  
+  
+The plot below shows the percentage of households that report having safely managed, basic, limited, unimproved drinking water services or no drinking water service. The largest part of the households has basic drinking water services, namely 35%. However, an almost equal part of the households reports having unimproved drinking water service and about 25% reports having no drinking water service.
+  
+```{r sdg_safely_managed, fig.width=6, fig.height=2, fig.cap=''}
+plot(sdg_safely_managed)
+```
+    
+When plotting the same data on a map, one can observe the spread of the drinking water service levels over the country. What is noticable is that especially in the south of Koinadugu there seem to be a lot of household without drinking water services. This coincides with location of the UNICEF wells, whos presence is less in that area.
+
+```{r fig.width=6, fig.height=4, fig.cap=''}
+service_level_map_hh
+```
+
+##### Drinking water level of the households per district
+
+
+```{r drinking_water_per_district, echo=FALSE}
+
+source_per_district <- data.frame(rbind(table(household$location_district, household$drinking_water_jmp)))
+source_per_district$total <- rowSums(source_per_district)
+source_per_district_per <- data.frame(apply(source_per_district,2,function(x) round((x/source_per_district$total)*100,2)))
+source_per_district_per$District <- row.names(source_per_district_per)
+row.names(source_per_district_per) <- NULL
+
+water_point_district <- melt(table(waterpoints$district))
+names(water_point_district) <- c("District", "Nr of Unicef waterpoints")
+
+source_per_district_per <- source_per_district_per %>% 
+  left_join(water_point_district) %>%
+  rename_all(funs(stringr::str_replace_all(., '\\.', ' '))) %>%
+  select(District, `Nr of Unicef waterpoints`, `Safely managed`, `Basic`, `Limited`, `Unimproved`, `No service`)
+
+knitr::kable(source_per_district_per, format="markdown", caption = "Percent of housholds with a specific drinking water service level")
+```
+
+
+## Sanitation
+```{r sanitation, include=FALSE}
+```
+
+```{r fig.width=6, fig.height=2, fig.cap=''}
+
+DW_SL <- data.frame("Service level" = c("Safely managed", "Basic", "Limited", "Unimproved", "Open Defecation"),
+                    "Definition" = 
+                      c("Use of improved facilities which are not shared with other household and where excreta are safely disposed in situ or transported and treated off-site",
+                        "Use of improved facilites which are not shared with other households", 
+                        "Use of improved facilites which are shared between two or more households",
+                        "Use of pit latrines without a slab or platform, hanging latrines or bucket latrines", 
+                        "Disposal of human faeces in fields, forests, bushes, open bodies of water, beaches and other open spaces or with solid waste"))
+
+knitr::kable(DW_SL, format="markdown")  
+
+plot(sanitation_service_levels)
+
+```
+
+
+
+## Hygiene
+
+```{r hygiene, include=FALSE}
+```
+
+```{r fig.width=4, fig.height=4, fig.cap=''}
+plot(hygiene_service_levels)
+
+```
+
+## Water Quality
+```{r water_quality, include=FALSE}
+```
+
+```{r fig.width=4, fig.height=2, fig.cap=''}
+plot(risk_levels)
+
+```
+
+```{r fig.width=4, fig.height=3, fig.cap=''}
+plot(density_plot)
+
+```
+
+
+### Caddisfly
+
+### Risk assessment score
+
+## UNICEF wells
+
+```{r wells, include=FALSE}
+```
+
+```{r water_point_types}
+waterpoints_types
+```
+
+```{r caddisfly_table}
+knitr::kable(caddisfly_table, format="markdown")
+```
+
+
+```{r fluoride, fig.hold="hold", out.width="50%"}
+fluoride
+
+PH
+```
+
+
+
+

@@ -1,0 +1,351 @@
+---
+title: "Untitled"
+author: "Akvo - data science"
+date: "4/23/2020"
+output: 
+  pdf_document:
+     latex_engine: xelatex
+header-includes:
+  - \usepackage{fontspec}
+  - \setmainfont{Assistant-Regular}
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(extrafont)
+library(extrafontdb)
+library(ggplot2)
+
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, cache=FALSE)
+knitr::read_chunk('rapport_hh.R')
+options(knitr.kable.NA = '-')
+
+```
+
+## \textcolor[HTML]{03AD8C}{Background}
+The world faces an invisible crisis of water quality. Its impacts are wider, deeper, and more uncertain than previously thought and requires urgent attention. 
+
+
+## \textcolor[HTML]{03AD8C}{Goals} 
+The objective of water quality monitoring is to obtain quantitative information on the physical, chemical, and biological characteristics of the water. Specifically in this case:
+
+## \textcolor[HTML]{03AD8C}{Sample and Population Characteristics}
+
+
+```{r start, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+```{r processing, include=FALSE}
+```
+
+```{r sample, include=FALSE}
+```
+
+For the sample 1100 communities that live near the UNICEF wells were selected. These communities are spread over 45 chiefdoms as can be seen in the table below.
+
+```{r results, echo=FALSE}
+row.names(location) <- location$` `
+location <- t(location[,c("Sample", "Country")])
+knitr::kable(location, format="markdown")
+```
+
+The figure below shows the spread of the households surveyed compared to the location of the UNICEF wells. There is quite some visual overlap in the location apart from the west area of the ditrict Bonthe and the north, east and south areas of Koinadugu. Because the districts ..... was chosen to survey households further from the wells. 
+
+```{r general_map, fig.align="center"}
+general_map <- ggplot(sl.shape.data) +
+  geom_sf(size = 0.1, color = "#603f83ff") +
+  theme_minimal() +
+  theme(panel.grid.major = element_line("white")) +
+  labs(title="Households and wells presented in this survey", x="", y="") +
+  theme(legend.position = "right",
+        legend.title = element_blank(),
+        legend.text = element_text(size=8),
+        plot.title = element_text(size=8),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        legend.key.height = unit(1, "line"))
+
+general_map <- general_map + geom_point(data=household, 
+                          aes(x=geolocation_longitude, y=geolocation_latitude, color=households), 
+                          size = 0.5, alpha = 0.8) +
+  scale_color_manual(values = "#4f3558")
+
+general_map <- general_map + geom_point(data=waterpoints, 
+                           aes(x=geo_longitude, y=geo_latitude, fill=`Unicef waterpoints`), 
+                           size = 3, alpha=0.5, shape=21, color="#03AD8C") +
+  scale_fill_manual(values="#96d4ed")
+
+general_map
+
+```
+
+## \textcolor[HTML]{03AD8C}{Water Quantity}
+
+```{r water, include=FALSE}
+```
+
+To get an indication of the quality of the drinking water sources used, water sources are often categorised. The table below shows the categories used by the JMP. The JMP uses the type of water source to form the categories: piped water into dwelling, plot or yard, other improved sources and unimproved sources. 
+  
+
+```{r water_source_level, fig.width=4, fig.height=2, dpi=400, fig.cap=''}
+
+DW_SL <- data.frame('Service level' = c("Safely managed", "Basic", "Limited", "Unimproved", "No service"),
+                    "Definition" = 
+                      c("Drinking water from an improved source which is located on premises, available when needed and free of faecal and priority contamination", 
+                        "Drinking water from an improved source provided collection time is not more than 30 minutes for a roundtrip, including queuing", 
+                        "Drinking water from an improved source provided collection time exceeds 30 minutes for a roundtrip, including queuing",
+                        "Drinking water from an unprotected dug well or unprotected spring", 
+                        "Drinking water collected directly from a river, dam, lake, pond, stream or irrigation channel"))
+
+
+WP_SL <- data.frame("Status" = c("Unimproved", "Other improved", "Piped into dwelling, plot or yard"),
+                    "Water sources" = 
+                      c("Unprotected dug well, unprotected spring, cart with small tank/drum, surface water (river, dam, lake, pond, stream, canal, irrigation channels)", 
+                        "Public taps or standpipes, tube wells or boreholes, protected dus wells, protected springs or rainwater collection", 
+                        "Piped household water connection located inside the user's dwelling, plot or yard"))
+
+knitr::kable(WP_SL, format="markdown")
+
+```
+  
+The classification of the water source is used to indicate the service level of the water source. The table below again shows the service levels of water sources as indicated by the JMP. Next to the classification of the water sources they use the distance of the water source to the household to indicate a service level. 
+
+  
+```{r drinking_water_level, fig.width=4, fig.height=2, dpi=400, fig.cap=''}
+knitr::kable(DW_SL, format="markdown")
+```
+  
+  
+The plot below shows the percentage of households that report having safely managed, basic, limited, unimproved drinking water services or no drinking water service. The largest part of the households has basic drinking water services, namely 35%. However, an almost equal part of the households reports having unimproved drinking water service and about 25% reports having no drinking water service.
+  
+```{r sdg_safely_managed, fig.width=6, fig.height=2, fig.cap=''}
+sdg_safely_managed <- ggplot(household, aes(x=drinking_water_jmp, fill=drinking_water_jmp)) +
+  geom_bar(position="dodge", aes(y = (..count..)/sum(..count..)), colour="#D9D9D9", width=0.5) +
+  theme_minimal() +
+  coord_flip() +
+  scale_fill_manual(values=c("#4F3558", "#40316B", "#28397E", "#196A91", "#04A58D")) +
+  scale_y_continuous(labels = percent_format()) +
+  # theme(legend.position = "none") +
+  labs(title="Percentage of drinking water services levels over all communities", 
+       x ="", y = "Percentage of total", fill="Service levels")+
+  guides(fill = guide_legend(reverse = TRUE))
+
+plot(sdg_safely_managed)
+```
+    
+When plotting the same data on a map, one can observe the spread of the drinking water service levels over the country. What is noticable is that especially in the south of Koinadugu there seem to be a lot of household without drinking water services. This coincides with location of the UNICEF wells, whos presence is less in that area.
+
+```{r fig.width=6, fig.height=4, fig.cap=''}
+service_level_map <- ggplot(sl.shape.data) +
+  geom_sf(size = 0.3, color = "#808080") +
+  theme(panel.grid.major = element_line("white")) +
+  theme_minimal() +
+  guides(colour = guide_legend(override.aes = list(size=2))) +
+  labs(title="Drinking water service levels of the interviewed households", x="", y="") +
+  theme(legend.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank())+
+  guides(fill = guide_legend(reverse = TRUE))
+
+
+service_level_map_wp <- service_level_map +
+  geom_point(data=waterpoints, 
+             aes(x=geo_longitude, y=geo_latitude, fill=`Unicef waterpoints`), 
+             size = 3, alpha=0.8, shape=21, color="#03AD8C") +
+  scale_fill_manual(values = "#96d4ed")
+
+service_level_map_hh <- service_level_map_wp +
+  geom_point(data=household, 
+             aes(x=geolocation_longitude, y=geolocation_latitude, 
+                 color = drinking_water_jmp), size = 0.5, alpha = 0.8) +
+  scale_color_manual(values=funct_color)
+service_level_map_hh
+
+```
+
+##### \textcolor[HTML]{03AD8C}{Drinking water level of the households per district}
+
+
+```{r drinking_water_per_district, echo=FALSE}
+
+source_per_district <- data.frame(rbind(table(household$location_district, household$drinking_water_jmp)))
+source_per_district$total <- rowSums(source_per_district)
+source_per_district_per <- data.frame(apply(source_per_district,2,function(x) round((x/source_per_district$total)*100,2)))
+source_per_district_per$District <- row.names(source_per_district_per)
+row.names(source_per_district_per) <- NULL
+
+water_point_district <- melt(table(waterpoints$district))
+names(water_point_district) <- c("District", "Nr of Unicef waterpoints")
+
+source_per_district_per <- source_per_district_per %>% 
+  left_join(water_point_district) %>%
+  rename_all(funs(stringr::str_replace_all(., '\\.', ' '))) %>%
+  select(District, `Nr of Unicef waterpoints`, `Safely managed`, `Basic`, `Limited`, `Unimproved`, `No service`)
+
+knitr::kable(source_per_district_per, format="markdown", caption = "Percent of housholds with a specific drinking water service level")
+```
+
+
+## \textcolor[HTML]{03AD8C}{Sanitation}
+```{r sanitation, include=FALSE}
+```
+
+```{r sanitation_plot}
+
+DW_SL <- data.frame("Service level" = c("Safely managed", "Basic", "Limited", "Unimproved", "Open Defecation"),
+                    "Definition" = 
+                      c("Use of improved facilities which are not shared with other household and where excreta are safely disposed in situ or transported and treated off-site",
+                        "Use of improved facilites which are not shared with other households", 
+                        "Use of improved facilites which are shared between two or more households",
+                        "Use of pit latrines without a slab or platform, hanging latrines or bucket latrines", 
+                        "Disposal of human faeces in fields, forests, bushes, open bodies of water, beaches and other open spaces or with solid waste"))
+
+knitr::kable(DW_SL, format="markdown")  
+
+sanitation_service_levels <- ggplot(
+  household %>% filter(!is.na(sanitation_jmp)),
+  aes(x=sanitation_jmp, fill=sanitation_jmp)) +
+  geom_bar(position="dodge",aes(y = (..count..)/sum(..count..)), colour="#D9D9D9", width=0.5) +
+  theme_minimal() +
+  coord_flip() +
+  guides(colour = guide_legend(override.aes = list(size=1))) +
+  # theme(legend.position = "none") +
+  scale_fill_manual(values=c("#4F3558", "#40316B", "#28397E", "#196A91", "#04A58D")) +
+  scale_y_continuous(labels = percent_format()) + 
+  labs(title="Percentage of sanitation service levels in the communities", x ="", y = "Percentage", fill="Sanitation service levels") +
+  theme(axis.text.y  = element_blank(),
+        legend.key.size = unit(0.5,"line"))+
+  guides(fill = guide_legend(reverse = TRUE))
+
+plot(sanitation_service_levels)
+
+```
+
+
+
+## \textcolor[HTML]{03AD8C}{Hygiene}
+
+```{r hygiene, include=FALSE}
+```
+
+```{r hygiene_plot}
+hygiene_service_levels <- ggplot(hygiene_table, aes(x="", y=Percentage, fill=Var1)) +
+  geom_bar(width = 1, stat="identity") +
+  coord_polar("y", start=0) + 
+  theme_minimal() +
+  scale_fill_manual(values=c("#0D1E55", "#7f85a9")) +
+  scale_y_continuous(labels = percent_format()) + 
+  labs(title="Level of hand washing facilities present at the households", x ="", y = "Percentage of total", fill="") 
+
+plot(hygiene_service_levels)
+
+```
+
+## \textcolor[HTML]{03AD8C}{Water Quality}
+```{r water_quality, include=FALSE}
+```
+
+```{r risk}
+risk_levels <- ggplot(
+  household %>% filter(!is.na(risk_level_ecoli)),
+  aes(x=risk_level_ecoli, fill=risk_level_ecoli)) +
+  geom_bar(position="dodge",aes(y = (..count..)/sum(..count..)), colour="#D9D9D9", width=0.5) +
+  theme_minimal() +
+  coord_flip() +
+  # theme(legend.position = "none") +
+  scale_fill_manual(values=c("#4F3558", "#40316B", "#196A91", "#04A58D")) +
+  scale_y_continuous(labels = percent_format()) + 
+  labs(title="Risk levels based on E.coli in the UNICEF wells", x ="", y = "Percentage", fill="E.coli risk levels") +
+  theme(axis.text.y  = element_blank()) +
+  guides(fill = guide_legend(reverse = TRUE))
+
+plot(risk_levels)
+
+```
+
+```{r density_plot}
+plot(density_plot)
+
+```
+
+
+### \textcolor[HTML]{03AD8C}{Caddisfly}
+
+### \textcolor[HTML]{03AD8C}{Risk assessment score}
+
+## \textcolor[HTML]{03AD8C}{UNICEF wells}
+
+```{r wells, include=FALSE}
+```
+
+```{r water_point_types}
+waterpoints_types <- ggplot(sl.shape.data) +
+  geom_sf(size = 0.3, color = "#808080") +
+  geom_point(data=waterpoints, aes(x=geo_longitude, y=geo_latitude, 
+                                   fill = water_supply_type),
+             size = 3, alpha=0.8, shape=21, color="#f2f2f2") +
+  scale_fill_manual(values=c("#4F3558", "#40316B", "#196A91", "#04A58D","#228B22", "#FF4500")) + 
+  theme(panel.grid.major = element_line("white")) +
+  theme_minimal() +
+  guides(colour = guide_legend(override.aes = list(size=2))) +
+  labs(title="Different types of UNICEF wells present in Sierra Leone", x="", y="", fill="Types of well") +
+  theme(legend.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+
+waterpoints_types
+```
+
+```{r caddisfly_table}
+knitr::kable(caddisfly_table, format="markdown")
+```
+
+
+```{r fluoride, fig.hold="hold", out.width="50%"}
+PH <- ggplot(connectivity %>% filter(Parameter == "ph"), aes(x=Parameter, y=Observation, color=Parameter)) +
+  geom_boxplot(alpha = 0, color="black") +
+  geom_jitter(alpha =0.5) +
+  scale_color_manual(values ="#196A91") +
+  geom_hline(aes(yintercept=7, linetype="pH neutral"), color = "#04A58D", size=0.5) +
+  annotate("text",x=1.5, y = 7.1, label = "pH neutral", font = "Assistant-Regular", size=5) +
+  scale_linetype_manual(name = "", values = 2) +
+  theme(panel.grid.major = element_line("white")) +
+  theme_minimal() +
+  # guides(colour = guide_legend(override.aes = list(size=2))) +
+  labs(title="Caddisfly water quality measurements: pH", x="", y="pH", fill="") +
+  theme(legend.position = "none",
+        legend.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+
+fluoride <- ggplot(connectivity %>% filter(Parameter == "fluoride"), aes(x=Parameter, y=Observation, color=Parameter)) +
+  geom_boxplot(alpha = 0, color="black") +
+  geom_jitter(alpha =0.5) +
+  scale_color_manual(values ="#4F3558") +
+  geom_hline(aes(yintercept=1.5, linetype="WHO guideline maximum fluoride mg/l"), color = "#04A58D", size=0.5) +
+  annotate("text",x=1.3, y = 1.55, label = "WHO guideline maximum fluoride mg/l", 
+           font = "Assistant-Regular", size=5) +
+  scale_linetype_manual(name = "", values = 2) +
+  theme(panel.grid.major = element_line("white")) +
+  theme_minimal() +
+  # guides(colour = guide_legend(override.aes = list(size=2))) +
+  labs(title="Caddisfly water quality measurements: Fluoride", x="", y="mg/l", fill="") +
+  theme(legend.title = element_blank(),
+        legend.position="none",
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+
+fluoride
+
+PH
+```
+
+
+
+
