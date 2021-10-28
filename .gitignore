@@ -50,3 +50,5 @@ vignettes/*.pdf
 *.pdf
 *.pptx
 *.docx
+*.xml
+*.xls
