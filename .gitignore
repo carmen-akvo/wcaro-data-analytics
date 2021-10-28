@@ -37,3 +37,16 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Archives
+/archive/
+
+# Data storage
+/data/
+
+# Extentions of data files
+*.xlsx
+*.csv
+*.pdf
+*.pptx
+*.docx
