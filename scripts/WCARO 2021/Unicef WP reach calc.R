@@ -15,7 +15,7 @@ library(splitstackshape)
 ### DATA
 
 # 2016 national wp mapping
-wp_2016 <- read_excel(here("SL/Data","wp_data_2016_national_mapping.xlsx"))
+wp_2016 <- read_excel(here("data/raw","wp_data_2016_national_mapping.xlsx"))
 wp_2016 <- wp_2016 %>% 
   # mutate(district = str_to_title(district)) %>%
   # mutate(chiefdom = str_to_title(chiefdom)) %>%
@@ -69,13 +69,13 @@ sphere_wp_reach <- data.frame(
   "sphere_wp_type" = c("tap", "hand pump", "open hand well", "mechanized well"),
   "sphere_cat" = c("A","B","C","D"))
 
-sphere_mapping <- read.table(here("SL/Data","sphere_category_mapping.csv"), sep=",", header=TRUE) %>% 
+sphere_mapping <- read.table(here("data/raw","sphere_category_mapping.csv"), sep=",", header=TRUE) %>% 
   left_join(sphere_wp_reach) %>%
   rename("Type of water point" = Type.of.water.point) %>%
   mutate(`Type of water point` = tolower(`Type of water point`))
 
 # Shape file data
-sl.shape <-read_sf(dsn = here::here("SL/Data/SIL_admin_SHP/", "SIL.shp"))
+sl.shape <-read_sf(dsn = here::here("data/raw/SIL_admin_SHP/", "SIL.shp"))
 sl.shape.data <- ggplot2::fortify(sl.shape, region='NAME')
 
 # Implementing partner
@@ -156,7 +156,7 @@ ggplot(sl.shape.data.2016.reach) +
 ## 2018 WQ mapping
 
 # Unicef WQ mapping
-wp_uni_2018 <- read.csv2(here("SL/output","SL_wells.csv")) %>%
+wp_uni_2018 <- read.csv2(here("data/output","SL_wells.csv")) %>%
   rename_all(funs(stringr::str_replace_all(., '\\.', '_')))
 
 wp_uni_2018 <- wp_uni_2018 %>%
@@ -263,7 +263,7 @@ reach_2016_sphere_district %>%
 # Population per district
 
 # population projections of the government 
-pop_projections_city <- read.table(here("SL/Data","pop_projections.csv"), sep=",", header=TRUE)
+pop_projections_city <- read.table(here("data/raw","pop_projections.csv"), sep=",", header=TRUE)
 names(pop_projections_city) <- c("ADM2", "2016", "2018", "2020", "2022", "2024", "2026", "2028", "2030")
 
 pop_projections <- pop_projections_city %>%
@@ -521,6 +521,78 @@ wp_2016 %>%
                              "tap")) + 
   scale_fill_manual(values = c( "#99d594","#ffffbf", "#fc8d59"))
 
+
+wp_2016 %>% 
+  select(sphere_wp_type, `6430039|Is/was this point monthly or regularly chlorinated?`)  %>%
+  table() %>% melt() %>% #group_by(sphere_wp_type) %>%
+  filter(value > 0) %>%
+  mutate(`6430039|Is/was this point monthly or regularly chlorinated?` = 
+           factor(`6430039|Is/was this point monthly or regularly chlorinated?`,
+                  levels=c("Yes", "No", "Unkown"))) %>%
+mutate(percentage = round(value/sum(value), 2)*100) %>%
+  ggplot(aes(fill=`6430039|Is/was this point monthly or regularly chlorinated?`,
+             y=value, x = sphere_wp_type, label=paste0(value))) + 
+  geom_col(position = "dodge") + theme_light() + #coord_flip() +
+  scale_x_discrete(labels=c( "hand pump",
+                             "mechanized\nwell",
+                             "open hand\nwell",
+                             "tap")) + 
+  scale_fill_manual(values = c( "#99d594", "#fc8d59","#ffffbf")) + 
+  geom_text(position=position_dodge(width=1)) +
+  theme(legend.title = element_blank()) + labs(title="Is/was this point monthly or regularly chlorinated?")
+  
+
+# Water point used for drinking water + why not?
+wp_2016 %>% 
+  separate(`4390042|Is/was this point used for drinking water`, c("drinking water score", "drinking water"), sep=":") %>%
+  select(sphere_wp_type, `drinking water`) %>% 
+  table() %>% melt() %>%
+  mutate(percentage = round(value/sum(value), 2)*100) %>%
+  ggplot(aes(fill=`drinking water`,
+             y=percentage, x = sphere_wp_type, label=paste0(percentage))) + 
+  geom_col(position = "dodge") + theme_light() + #coord_flip() +
+  scale_x_discrete(labels=c( "hand pump",
+                             "mechanized\nwell",
+                             "open hand\nwell",
+                             "tap")) + 
+  # scale_fill_manual(values = c( "#99d594", "#fc8d59","#ffffbf")) + 
+  geom_text(position=position_dodge(width=1)) +
+  theme(legend.title = element_blank()) + 
+  labs(title="Is/was this point used for drinking water?")
+
+
+
+
+wp_2016$`1450005|Why is this point not used for drinking water?` %>% table() %>% melt() %>%
+  arrange(value) %>% filter(value >10)
+
+
+# Is the water clean?
+wp_2016 %>% select(sphere_wp_type, `3480045|Is the water clean or is there a quality problem?`)  %>%
+  mutate(`water_quality_observation` = recode(
+    `3480045|Is the water clean or is there a quality problem?`,
+    "3:Salty" = "Salty",
+    "2:Coloured (e.g. whitish, brown, green)" = "Coloured (e.g. whitish, brown, green)",
+    "1:Crystal clear" = "Clear",
+    "OTHER:clean" = "Clear",
+    "OTHER:Clean" = "Clear",
+    .default = "Other"
+  )) %>%
+  select(- `3480045|Is the water clean or is there a quality problem?` ) %>%
+  table() %>% melt() %>%
+  filter(value>0)  %>%
+  mutate(percentage = round(value/sum(value), 2)*100) %>%
+  ggplot(aes(fill=water_quality_observation,
+             y=value, x = sphere_wp_type, label=paste0(value))) + 
+  geom_col(position = "dodge") + theme_light() + #coord_flip() +
+  scale_x_discrete(labels=c( "hand pump",
+                             "mechanized\nwell",
+                             "open hand\nwell",
+                             "tap")) + 
+  # scale_fill_manual(values = c( "#99d594", "#fc8d59","#ffffbf")) + 
+  geom_text(position=position_dodge(width=1)) +
+  theme(legend.title = element_blank()) + 
+  labs(title="Is the water clean or is there a quality problem?")
 
 
 
