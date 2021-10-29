@@ -543,8 +543,19 @@ mutate(percentage = round(value/sum(value), 2)*100) %>%
   
 
 # Water point used for drinking water + why not?
-wp_2016 %>% 
-  separate(`4390042|Is/was this point used for drinking water`, c("drinking water score", "drinking water"), sep=":") %>%
+wp_2016 <- wp_2016 %>% 
+  separate(`4390042|Is/was this point used for drinking water`, c("drinking water score", "drinking water"), sep=":")  %>%
+  mutate(`water_quality_observation` = recode(
+    `3480045|Is the water clean or is there a quality problem?`,
+    "3:Salty" = "Salty",
+    "2:Coloured (e.g. whitish, brown, green)" = "Coloured (e.g. whitish, brown, green)",
+    "1:Crystal clear" = "Clear",
+    "OTHER:clean" = "Clear",
+    "OTHER:Clean" = "Clear",
+    .default = "Other"
+  )) 
+
+wp_2016 %>%
   select(sphere_wp_type, `drinking water`) %>% 
   table() %>% melt() %>%
   mutate(percentage = round(value/sum(value), 2)*100) %>%
@@ -561,23 +572,12 @@ wp_2016 %>%
   labs(title="Is/was this point used for drinking water?")
 
 
-
-
-wp_2016$`1450005|Why is this point not used for drinking water?` %>% table() %>% melt() %>%
-  arrange(value) %>% filter(value >10)
+# wp_2016$`1450005|Why is this point not used for drinking water?` %>% table() %>% melt() %>%
+#   arrange(value) %>% filter(value >10)
 
 
 # Is the water clean?
-wp_2016 %>% select(sphere_wp_type, `3480045|Is the water clean or is there a quality problem?`)  %>%
-  mutate(`water_quality_observation` = recode(
-    `3480045|Is the water clean or is there a quality problem?`,
-    "3:Salty" = "Salty",
-    "2:Coloured (e.g. whitish, brown, green)" = "Coloured (e.g. whitish, brown, green)",
-    "1:Crystal clear" = "Clear",
-    "OTHER:clean" = "Clear",
-    "OTHER:Clean" = "Clear",
-    .default = "Other"
-  )) %>%
+wp_2016 %>% select(sphere_wp_type, `3480045|Is the water clean or is there a quality problem?`) %>%
   select(- `3480045|Is the water clean or is there a quality problem?` ) %>%
   table() %>% melt() %>%
   filter(value>0)  %>%
@@ -595,7 +595,13 @@ wp_2016 %>% select(sphere_wp_type, `3480045|Is the water clean or is there a qua
   labs(title="Is the water clean or is there a quality problem?")
 
 
-
+wp_2016 %>% select(water_quality_observation, `drinking water`) %>% 
+  table() %>% melt() %>% 
+  group_by(`drinking water`) %>%
+  mutate(percentage = round(value/sum(value),2)*100) %>%
+  ggplot(aes(fill=water_quality_observation,
+             y=percentage, x = `drinking water`, label=paste0(percentage, "%"))) + 
+  geom_col(position = "dodge") + theme_light() + geom_text(position=position_dodge(width=1))
 
 
 
