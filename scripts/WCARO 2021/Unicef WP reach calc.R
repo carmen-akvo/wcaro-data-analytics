@@ -17,11 +17,6 @@ library(splitstackshape)
 # 2016 national wp mapping
 wp_2016 <- read_excel(here("data/raw","wp_data_2016_national_mapping.xlsx"))
 wp_2016 <- wp_2016 %>% 
-  # mutate(district = str_to_title(district)) %>%
-  # mutate(chiefdom = str_to_title(chiefdom)) %>%
-  # mutate(section = str_to_title(section)) %>%
-  # mutate(community = str_to_title(community)) %>%
-  # mutate(water_point_name = str_to_title(water_point_name))
   mutate(Longitude = as.numeric(Longitude)) %>%
   mutate(Latitude = as.numeric(Latitude)) %>%
   filter(Latitude < 20) %>%
@@ -602,6 +597,37 @@ wp_2016 %>% select(water_quality_observation, `drinking water`) %>%
   ggplot(aes(fill=water_quality_observation,
              y=percentage, x = `drinking water`, label=paste0(percentage, "%"))) + 
   geom_col(position = "dodge") + theme_light() + geom_text(position=position_dodge(width=1))
+
+### CIRCLES!
+
+# Selection of wp 2016 data
+wp_2016 %>% select()
+
+# Convert to sf, set the crs to EPSG:4326 (lat/long), 
+# and transform to EPSG:3035
+wp_2016_sf <- st_as_sf(wp_2016, coords = c("Longitude", "Latitude"), crs = 4326) %>% 
+  st_transform(3035)
+
+# Buffer circles by 100m
+wp_2016_circles <- st_buffer(wp_2016_sf, dist = 500)
+
+# Polygon
+
+# Different type of shapefile? throws error for missing crs
+# sl.shape <- read_sf(dsn = here::here("data/raw/SIL_admin_SHP/", "SIL.shp")) %>%
+#   st_set_crs(4326) %>% st_transform(3035)
+
+sl_sf <- getData(name = "GADM", 
+                 country = "SL", 
+                 level = 3) %>%
+  # convert to simple features
+  sf::st_as_sf() %>%
+  # Filter down to Ticino
+  st_transform(3035)
+
+# Intersect the circles with the polygons
+wp_2016_int_circles <- st_intersection(sl_sf, wp_2016_circles)
+
 
 
 
