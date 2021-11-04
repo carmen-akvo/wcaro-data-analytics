@@ -77,8 +77,6 @@ sl_sf <- getData(name = "GADM",
 wp_2016_int_circles <- st_intersection(sl_sf, wp_2016_circles)
 
 
-
-
 # UNICEF WP
 waterpoints_within_distance <- NULL
 

@@ -12,6 +12,11 @@ library(reshape2)
 library(splitstackshape)
 
 
+library(sp)
+library(rgdal)
+library(maps)
+
+
 ### DATA
 
 # 2016 national wp mapping
@@ -461,7 +466,6 @@ districtwise_improved_wp_functionality %>%
 
 # Functionality per District 
 
-
 districtwise_improved_wp_functionality_percentage <- districtwise_improved_wp_functionality %>% 
   mutate(Functionality_simple = recode(Functionality,
                                        "No - Broken down" = "No",
@@ -566,11 +570,6 @@ wp_2016 %>%
   theme(legend.title = element_blank()) + 
   labs(title="Is/was this point used for drinking water?")
 
-
-# wp_2016$`1450005|Why is this point not used for drinking water?` %>% table() %>% melt() %>%
-#   arrange(value) %>% filter(value >10)
-
-
 # Is the water clean?
 wp_2016 %>% select(sphere_wp_type, `3480045|Is the water clean or is there a quality problem?`) %>%
   select(- `3480045|Is the water clean or is there a quality problem?` ) %>%
@@ -601,35 +600,85 @@ wp_2016 %>% select(water_quality_observation, `drinking water`) %>%
 ### CIRCLES!
 
 # Selection of wp 2016 data
-wp_2016 %>% select()
+wp_2016_sub <- wp_2016 %>% 
+  dplyr::select("Water point Name", 
+         "ADM2", "Chiefdom", "Section", "Community Name",
+         "Latitude", "Longitude",
+         "Functionality",
+         "sdg_improved_source",
+         "sphere_nr_people") %>% 
+  unique() %>%
+  rename("NAME_2" = "ADM2")
 
 # Convert to sf, set the crs to EPSG:4326 (lat/long), 
 # and transform to EPSG:3035
-wp_2016_sf <- st_as_sf(wp_2016, coords = c("Longitude", "Latitude"), crs = 4326) %>% 
+wp_2016_sf <- st_as_sf(wp_2016_sub, 
+                       coords = c( "Longitude", "Latitude"), 
+                       crs = 4326) %>% 
   st_transform(3035)
 
 # Buffer circles by 100m
 wp_2016_circles <- st_buffer(wp_2016_sf, dist = 500)
 
 # Polygon
-
-# Different type of shapefile? throws error for missing crs
-# sl.shape <- read_sf(dsn = here::here("data/raw/SIL_admin_SHP/", "SIL.shp")) %>%
-#   st_set_crs(4326) %>% st_transform(3035)
-
-sl_sf <- getData(name = "GADM", 
-                 country = "SL", 
-                 level = 3) %>%
-  # convert to simple features
-  sf::st_as_sf() %>%
-  # Filter down to Ticino
+sl.shape <- read_sf(dsn = here::here("data/raw/SIL_admin_SHP/", "SIL.shp")) %>%
+  st_set_crs(4326) %>% 
   st_transform(3035)
 
 # Intersect the circles with the polygons
-wp_2016_int_circles <- st_intersection(sl_sf, wp_2016_circles)
+wp_2016_int_circles <- st_intersection(sl.shape, wp_2016_circles)
+
+fb_pop_sl <- read.csv2(here("data/raw", "population_sle_2019-07-01.csv"), sep=",")
+fb_test <- fb_pop_sl %>%
+  mutate(Lat = as.numeric(Lat)) %>%
+  mutate(Lon = as.numeric(Lon)) 
+
+# To sf file
+pnts_sf <- st_as_sf(fb_pop_sl, 
+                   coords = c( "Lon", "Lat"), 
+                   crs = 4326) %>% 
+  st_transform(3035)
+
+# Find overlap
+pnts <- pnts_sf %>% 
+  mutate(intersection = as.integer(st_intersects(geometry, wp_2016_int_circles))) %>%
+  mutate(area = if_else(is.na(intersection), '', wp_2016_int_circles$NAME_2[intersection]))
 
 
+coordinates(fb_test) <- c("Lon","Lat")
+as(fb_test,"SpatialPoints")
 
+sp::over(fb_test, wp_2016_int_circles, fn=NULL)
+
+wp_2016_int_circles <- st_as_sf(wp_2016_int_circles)
+pnts <- st_as_sf(fb_test) %>% st_set_crs(., 3035)
+kept_points <- st_intersection(wp_2016_int_circles, pnts_sf)
+
+kept_points_WR <- kept_points %>% 
+  filter(ADM2 == "Western Rural")
+
+population_per_waterpoint <- kept_points_WR %>%
+  mutate(Population = as.numeric(Population)) %>%
+  group_by(ADM1, ADM2,  Water.point.Name, Community.Name, sphere_nr_people) %>%
+  summarise("Population in 500m" = sum(Population))
+
+population_per_waterpoint %>%
+  mutate("Portion served in 500m" = `Population in 500m`/sphere_nr_people)
+
+# Create choropleth map with reach numbers for 2016 data
+ggplot(sl.shape.data.2018.reach) +
+  
+  # add a shapefile layer to the plot, set the line size and colour for the polygons, then fill them according to our data
+  geom_sf(size = 0.3, color = "#808080", aes(fill=reach)) +
+  geom_sf_text(aes(label=paste0(ADM2, "\n", reach)), check_overlap = TRUE) +
+  scale_fill_gradient(low="#F2F2F2",high="#404898", na.value="#F2F2F2")
+
+# Summarize by NAME_3
+# which aggregates all of the circles by NAME_3,
+# then calculate the area
+wp_2016_int_circles_summary <- group_by(wp_2016_int_circles, ADM2) %>% 
+  summarise() %>% 
+  mutate(area = st_area(.))
 
 ## Household level improved versus unimproved WP
 hh_service_levels <- read.csv2(here::here("SL/output","household_with_service_levels.csv"), sep=";")
