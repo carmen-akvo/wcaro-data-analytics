@@ -11,7 +11,6 @@ library(ggplot2)
 library(reshape2)
 library(splitstackshape)
 
-
 library(sp)
 library(rgdal)
 library(maps)
@@ -56,12 +55,16 @@ wp_2016 <- wp_2016 %>%
     "hand pump" = "Improved", 
     "rainwater (harvesting)" = "Improved",
     "handpump" = "Improved")) %>%
-  rename(ADM2 = District) %>% 
+  rename(ADM2 = District,
+         ADM3 = Chiefdom,
+         ADM4 = Section,
+         ADM5 = Community) %>% 
   mutate(ADM2 = recode(ADM2, 
                        "East" = "Eastern Region",
                        "West" = "Western Region",
                        "North" = "Northern Region",
-                       "South" = "Southern Region"))
+                       "South" = "Southern Region")) %>%
+  select(-`Community Name`)
 
 # Classification of WP reach
 sphere_wp_reach <- data.frame(
@@ -73,6 +76,9 @@ sphere_mapping <- read.table(here("data/raw","sphere_category_mapping.csv"), sep
   left_join(sphere_wp_reach) %>%
   rename("Type of water point" = Type.of.water.point) %>%
   mutate(`Type of water point` = tolower(`Type of water point`))
+
+wp_2016 <- wp_2016 %>% 
+  left_join(sphere_mapping)
 
 # Shape file data
 sl.shape <-read_sf(dsn = here::here("data/raw/SIL_admin_SHP/", "SIL.shp"))
@@ -115,8 +121,6 @@ ggplot(sl.shape.data) +
         axis.ticks = element_blank())
 
 ### REACH
-wp_2016 <- wp_2016 %>% 
-  left_join(sphere_mapping)
 
 # Determine reach per district for all water points
 reach_2016_sphere_district <- wp_2016 %>% 
@@ -351,10 +355,6 @@ districtwise_improved_wp <- wp_2016 %>%
   summarise(waterpoints = n(),
             sphere_nr_people_total = sum(sphere_nr_people, na.rm=TRUE),
             sphere_nr_people_average = mean(sphere_nr_people, na.rm=TRUE))
-
-# districtwise_improved_wp <- districtwise_improved_wp %>%
-#   mutate(percentage_wp = round(waterpoints / sum(waterpoints),2)*100) %>%
-#   mutate(percentage_people = round(sphere_nr_people / sum(sphere_nr_people),2)*100)
 
 total_improved_wp <- districtwise_improved_wp %>% 
   group_by(sdg_improved_source) %>%
@@ -601,14 +601,14 @@ wp_2016 %>% select(water_quality_observation, `drinking water`) %>%
 
 # Selection of wp 2016 data
 wp_2016_sub <- wp_2016 %>% 
-  dplyr::select("Water point Name", 
-         "ADM2", "Chiefdom", "Section", "Community Name",
+  filter(ADM2 == "Bombali") %>%
+  dplyr::select(#"ADM2", "ADM3", "ADM4", "ADM5",
+                "Water point Name", 
          "Latitude", "Longitude",
          "Functionality",
          "sdg_improved_source",
          "sphere_nr_people") %>% 
-  unique() %>%
-  rename("NAME_2" = "ADM2")
+  unique() 
 
 # Convert to sf, set the crs to EPSG:4326 (lat/long), 
 # and transform to EPSG:3035
@@ -622,16 +622,38 @@ wp_2016_circles <- st_buffer(wp_2016_sf, dist = 500)
 
 # Polygon
 sl.shape <- read_sf(dsn = here::here("data/raw/SIL_admin_SHP/", "SIL.shp")) %>%
+  filter(ADM2 == "Bombali") %>%
   st_set_crs(4326) %>% 
   st_transform(3035)
 
 # Intersect the circles with the polygons
 wp_2016_int_circles <- st_intersection(sl.shape, wp_2016_circles)
 
+# Find reach per district
+wp_2016_coverage_district <- wp_2016_int_circles %>%
+  group_by(ADM2) %>% 
+  summarize(geometry = st_union(geometry),
+            sphere_coverage = sum(sphere_nr_people))
+
+# wp_2016_int_circles_summary <-  wp_2016_int_circles %>%
+#   group_by( ADM1, ADM2) %>% 
+#   summarise() %>% 
+#   mutate(area = st_area(.))
+
+# Create choropleth map with reach numbers for 2016 data
+ggplot(wp_2016_coverage_district) +
+  
+  # add a shapefile layer to the plot, set the line size and colour for the polygons, then fill them according to our data
+  geom_sf(size = 0.3, color = "#808080", aes(fill=sphere_coverage)) 
+
+# Facebook population
 fb_pop_sl <- read.csv2(here("data/raw", "population_sle_2019-07-01.csv"), sep=",")
-fb_test <- fb_pop_sl %>%
-  mutate(Lat = as.numeric(Lat)) %>%
-  mutate(Lon = as.numeric(Lon)) 
+fb_pop_sl <- fb_pop_sl %>% 
+  mutate(ID = paste0("V", rownames(fb_pop_sl)))
+
+# Add ID to population data, which can later by used to identify duplicates. 
+# Determine duplicates and divide pop density by the # of duplicates to get density equally dispersed across wp
+# Then compare pop dens with wp coverage
 
 # To sf file
 pnts_sf <- st_as_sf(fb_pop_sl, 
@@ -640,51 +662,80 @@ pnts_sf <- st_as_sf(fb_pop_sl,
   st_transform(3035)
 
 # Find overlap
-pnts <- pnts_sf %>% 
-  mutate(intersection = as.integer(st_intersects(geometry, wp_2016_int_circles))) %>%
-  mutate(area = if_else(is.na(intersection), '', wp_2016_int_circles$NAME_2[intersection]))
 
+# Per region
+# kept_points_summary <- st_intersection(wp_2016_int_circles_summary, pnts_sf)
 
-coordinates(fb_test) <- c("Lon","Lat")
-as(fb_test,"SpatialPoints")
+# Per waterpoint -> problem: population denstiy is counted double!
+kept_points_with_ID <- st_intersection(wp_2016_int_circles, pnts_sf) 
 
-sp::over(fb_test, wp_2016_int_circles, fn=NULL)
-
-wp_2016_int_circles <- st_as_sf(wp_2016_int_circles)
-pnts <- st_as_sf(fb_test) %>% st_set_crs(., 3035)
-kept_points <- st_intersection(wp_2016_int_circles, pnts_sf)
-
-kept_points_WR <- kept_points %>% 
-  filter(ADM2 == "Western Rural")
-
-population_per_waterpoint <- kept_points_WR %>%
+kept_points_with_ID <- kept_points_with_ID %>% 
+  select(Water.point.Name, sdg_improved_source, sphere_nr_people, ID.1, Population, geometry) %>% 
   mutate(Population = as.numeric(Population)) %>%
-  group_by(ADM1, ADM2,  Water.point.Name, Community.Name, sphere_nr_people) %>%
-  summarise("Population in 500m" = sum(Population))
+  unique() 
 
-population_per_waterpoint %>%
-  mutate("Portion served in 500m" = `Population in 500m`/sphere_nr_people)
+# Duplicates:
+duplicate_pop_density <- kept_points_with_ID %>% 
+  st_drop_geometry() %>% 
+  group_by(ID.1) %>% 
+  summarise(count=n())
 
-# Create choropleth map with reach numbers for 2016 data
-ggplot(sl.shape.data.2018.reach) +
-  
-  # add a shapefile layer to the plot, set the line size and colour for the polygons, then fill them according to our data
-  geom_sf(size = 0.3, color = "#808080", aes(fill=reach)) +
-  geom_sf_text(aes(label=paste0(ADM2, "\n", reach)), check_overlap = TRUE) +
-  scale_fill_gradient(low="#F2F2F2",high="#404898", na.value="#F2F2F2")
+# Find the population density squares that fall in/out of the water point reach
+pnts_sf_not_covered <- pnts_sf %>%
+  mutate(covered_by_wp = ifelse(
+    geometry %in% unique(kept_points_with_ID$geometry), 
+    "yes", "no")) %>%
+  filter(covered_by_wp == "no") %>%
+  mutate(percentage_served = 0) %>%
+  mutate(Population = as.numeric(Population))
 
-# Summarize by NAME_3
-# which aggregates all of the circles by NAME_3,
-# then calculate the area
-wp_2016_int_circles_summary <- group_by(wp_2016_int_circles, ADM2) %>% 
+# Plot the population that falls in/out of the reach
+
+population_served_bombali <- kept_points_with_ID %>% 
+  left_join(duplicate_pop_density) %>%
+  mutate(Population = Population/count) %>%
+  group_by(Water.point.Name, sdg_improved_source, sphere_nr_people) %>% 
+  summarise( Population = sum(Population)) %>%
+  mutate(percentage_served = round(sphere_nr_people/Population,2)*100)
+
+population_served_bombali_not_served <- rbind(population_served_bombali %>% 
+                                                select(Population, percentage_served, geometry),
+                                              pnts_sf_not_covered %>%
+                                                select(Population, percentage_served, geometry))
+
+population_served_bombali %>% 
+  mutate(percentage_served = ifelse(percentage_served > 100, 100, percentage_served)) %>%
+  ggplot() + 
+  geom_sf(aes(color=percentage_served)) +
+  scale_color_gradient(low = "red", high = "green") +
+  geom_point(data=pnts_sf, 
+             aes(x=Longitude, y=Latitude, color=Partner), 
+             size = 2, alpha=1, shape=20) 
+
+population_served_bombali_not_served %>% 
+  mutate(percentage_served = ifelse(percentage_served > 100, 100, percentage_served)) %>%
+  ggplot() + 
+  geom_sf(aes(color=percentage_served)) +
+  scale_color_gradient(low = "red", high = "green") +
+  geom_point(data=pnts_sf, 
+             aes(x=Longitude, y=Latitude, color=Partner), 
+             size = 2, alpha=1, shape=20) 
+
+pnts_sf_not_covered %>% 
+  ggplot() + 
+  geom_sf(aes(color=Population)) +
+  scale_color_gradient(low = "blue", high = "red")
+
+duplicate_counts <- kept_points %>% 
+  group_by(Population, geometry) %>%
+  summarise(count = n())
+
+# Remove Duplicated entries and sum per district or community how many people live within 500 m of a water point 
+
+# Find out what part of the population DOES NOT live within 500 m of a water point
+
+# Determine area covered by water points per district 
+wp_2016_int_circles_summary <-  wp_2016_int_circles %>%
+  group_by( NAME_2) %>% 
   summarise() %>% 
   mutate(area = st_area(.))
-
-## Household level improved versus unimproved WP
-hh_service_levels <- read.csv2(here::here("SL/output","household_with_service_levels.csv"), sep=";")
-
-district_service_level <- hh_service_levels %>% 
-  group_by(location_district, sdg_improved_source) %>%
-  summarise(households = n(),
-            nr_of_people = sum(number_household, na.rm = TRUE))
-
