@@ -122,7 +122,19 @@ reach_2016_sphere_district <- wp_2016 %>%
   group_by(ADM2) %>% 
   summarise(reach = sum(sphere_nr_people, na.rm=TRUE))
 
-# Determine reach per district for all functional water points
+# Determine reach per district for all IMPROVED water points
+reach_2016_sphere_improved <- wp_2016 %>%
+  mutate(sdg_improved_source = recode(
+         sdg_improved_source,
+         "Improved" = "improved",
+         "Unimproved" = "unimproved",
+         .default="unimproved")) %>%
+  filter(sdg_improved_source == "improved") %>%
+  group_by(ADM2, sdg_improved_source) %>% 
+  summarise(count = n(),
+            reach_improved_wp = sum(sphere_nr_people, na.rm=TRUE))
+
+# Determine reach per district for all FUNCTIONAL water points
 reach_2016_sphere_functional <- wp_2016 %>% 
   filter(Functionality %in% c("Yes – Functional (and in use)", "Yes - But damaged" )) %>% 
   group_by(ADM2) %>% 
@@ -200,8 +212,8 @@ ggplot(sl.shape.data.2018.reach) +
 wp_2016_test <- wp_2016 %>% 
   # filter(District == "Bo") %>%
   select("Submission Date","ADM2",                                                                           
-         "Chiefdom","Section","Community","Water point Name",
-         "Community Name","Latitude","Longitude",
+         "ADM3","ADM4","ADM5","Water point Name",
+         "Latitude","Longitude",
          "Type of water point score","Type of water point",
          "Extraction system type","Pump type",
          "Number of taps at this point", 
@@ -273,21 +285,37 @@ pop_projections <- pop_projections_city %>%
   group_by(ADM2) %>%
   summarise(across(c("2016":"2030"), ~ sum(.)))
 
+# Add population projections to water point coverage
 percentage_reach_2016_sphere_district <- reach_2016_sphere_district %>% 
   mutate(ADM2 = recode(ADM2, 
                       "East" = "Eastern Region",
                       "West" = "Western Region",
                       "North" = "Northern Region",
                       "South" = "Southern Region")) %>% 
-  full_join(pop_projections %>% select(ADM2, `2018`)) %>%
-  mutate(Percentage_coverage = round(reach/`2018`,2)*100) %>%
-  mutate(Percentage_coverage_functional_2016 = round(reach_functional_wp/`2018`,2)*100)
+  full_join(pop_projections %>% select(ADM2, `2016`)) %>%
+  mutate(Percentage_coverage = round(reach/`2016`,2)*100) %>%
+  mutate(Percentage_coverage_functional_2016 = round(reach_functional_wp/`2016`,2)*100)
+
+write.csv2(percentage_reach_2016_sphere_district, here("data/output", "wp coverage functional water points.csv"))
+
+# Add population projections to water point coverage of IMPROVED water points
+percentage_reach_2016_sphere_district <- reach_2016_sphere_improved %>% 
+  mutate(ADM2 = recode(ADM2, 
+                       "East" = "Eastern Region",
+                       "West" = "Western Region",
+                       "North" = "Northern Region",
+                       "South" = "Southern Region")) %>% 
+  full_join(pop_projections %>% select(ADM2, `2016`)) %>%
+  mutate(Percentage_coverage = round(reach_improved_wp/`2016`,2)*100)
+
+
 
 # Create choropleth map with reach numbers for 2016 data and reach
 
 # Add to shape file
 sl.shape.data.percentage.reach <- sl.shape.data %>% 
-  left_join(percentage_reach_2016_sphere_district) %>%
+  left_join(percentage_reach_2016_sphere_district %>%
+              mutate(Percentage_coverage = ifelse(Percentage_coverage > 100, 100, Percentage_coverage))) %>%
   mutate(Percentage_coverage = replace_na(Percentage_coverage, 0))  %>%
   mutate(Percentage_coverage_functional_2016 = replace_na(Percentage_coverage_functional_2016, 0)) 
 
@@ -304,7 +332,7 @@ ggplot(sl.shape.data.percentage.reach) +
   #add a shapefile layer to the plot, set the line size and colour for the polygons, then fill them according to our data
   geom_sf(size = 0.3, color = "#808080", aes(fill=Percentage_coverage)) +
   geom_sf_text(aes(label=paste0(ADM2, "\n", Percentage_coverage, "%"))) + #, check_overlap = TRUE) +
-  scale_fill_gradient(low="#F2F2F2",high="#404898", na.value="#F2F2F2")
+  scale_fill_gradient(low="red",high="green", na.value="#F2F2F2")
 
 
 ggplot(sl.shape.data.percentage.reach) +
@@ -591,4 +619,6 @@ wp_2016 %>% select(water_quality_observation, `drinking water`) %>%
   ggplot(aes(fill=water_quality_observation,
              y=percentage, x = `drinking water`, label=paste0(percentage, "%"))) + 
   geom_col(position = "dodge") + theme_light() + geom_text(position=position_dodge(width=1))
+
+write.csv2(wp_2016, here("data/processed", "wp_2016_processed.csv"))
 
