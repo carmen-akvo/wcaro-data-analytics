@@ -59,7 +59,9 @@ pnts_sf <- st_as_sf(fb_pop_sl,
 
 # Link Admin levels to FB density
 FB_density_admin <- st_intersection(sl.shape, pnts_sf) 
-FB_density_admin <- FB_density_admin %>% select(ADM2, Population, ID.1)
+FB_density_admin <- FB_density_admin %>% select(ADM2, Population, ID.1) 
+
+st_write(FB_density_admin, here("data/processed", "FB density with admin level.shp"))
 
 # Find overlap
 
