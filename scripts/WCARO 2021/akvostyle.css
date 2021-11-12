@@ -1,0 +1,2369 @@
+/* line 5, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 5, ../sass/akvo_style.scss */
+body {
+  overflow-x: hidden !important;
+}
+
+/* line 9, ../sass/akvo_style.scss */
+p {
+  margin-bottom: 10px;
+}
+
+/* line 11, ../sass/akvo_style.scss */
+li#updateTemplate ul.floats-in {
+  list-style: none;
+  margin: 1em 0;
+}
+
+/* line 16, ../sass/akvo_style.scss */
+.container-fluid {
+  padding: 0px;
+}
+
+@media (max-width: 768px) {
+  /* line 19, ../sass/akvo_style.scss */
+  #n ul li ul.sub-menu li a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* line 24, ../sass/akvo_style.scss */
+  .container-fluid > .navbar-collapse, .container-fluid > .navbar-header {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
+  /* line 30, ../sass/akvo_style.scss */
+  .container > .navbar-collapse, .container > .navbar-header {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+}
+/* line 37, ../sass/akvo_style.scss */
+.siteorigin-widget-tinymce h4 {
+  color: inherit;
+}
+
+/* line 41, ../sass/akvo_style.scss */
+.so-widget-akvo-cover img {
+  width: 100%;
+}
+
+/* line 45, ../sass/akvo_style.scss */
+.alignright {
+  text-align: right !important;
+}
+
+/* line 49, ../sass/akvo_style.scss */
+.fullBlack #assessFunel #funnel-form.funelContainer .funnelContent {
+  max-width: 700px;
+}
+
+/* line 53, ../sass/akvo_style.scss */
+.home #content {
+  margin-top: 0;
+}
+
+/* line 58, ../sass/akvo_style.scss */
+.fullBlack .so-widget-logos li {
+  width: 185px;
+}
+/* line 61, ../sass/akvo_style.scss */
+.fullBlack .micro-story .iframe-row iframe {
+  margin: 0 auto;
+}
+/* line 64, ../sass/akvo_style.scss */
+.fullBlack .no-padding-col .siteorigin-widget-tinymce {
+  padding: 0;
+}
+/* line 67, ../sass/akvo_style.scss */
+.fullBlack .narrow-row {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+/* line 72, ../sass/akvo_style.scss */
+.fullBlack .narrow-row .panel-grid-cell {
+  padding: 30px;
+}
+/* line 75, ../sass/akvo_style.scss */
+.fullBlack .narrow-row .siteorigin-widget-tinymce {
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  /* line 83, ../sass/akvo_style.scss */
+  .fullBlack .so-widget-logos ul {
+    white-space: nowrap;
+    overflow: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* line 89, ../sass/akvo_style.scss */
+  .fullBlack .so-widget-logos li {
+    width: 120px;
+  }
+
+  /* line 93, ../sass/akvo_style.scss */
+  #search {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 641px) {
+  /* line 100, ../sass/akvo_style.scss */
+  .homepage-2018-new.Page.fullBlack .gform_wrapper .top_label li.gfield.gf_left_half, .homepage-2018-new.Page.fullBlack .gform_wrapper .top_label li.gfield.gf_right_half {
+    width: 49%;
+  }
+}
+@media (max-width: 780px) {
+  /* line 107, ../sass/akvo_style.scss */
+  .fullBlack .narrow-row {
+    padding: 15px;
+  }
+  /* line 109, ../sass/akvo_style.scss */
+  .fullBlack .narrow-row .panel-grid-cell {
+    padding: 15px 0 !important;
+  }
+}
+/* line 115, ../sass/akvo_style.scss */
+body {
+  color: #202024;
+  font-family: 'Assistant', sans-serif;
+  font-weight: 400;
+  font-size: 1.45em;
+  line-height: 1.4em;
+  text-rendering: optimizeLegibility;
+}
+
+/* line 124, ../sass/akvo_style.scss */
+p, strong, .company, .fullwidth li {
+  font-size: 16px;
+  line-height: 21px;
+}
+
+/* line 129, ../sass/akvo_style.scss */
+strong {
+  font-weight: bold;
+}
+
+/* line 131, ../sass/akvo_style.scss */
+h1, h2, h3, h4, h5, h6 {
+  color: #333 !important;
+  font-family: "Roboto Condensed", sans-serif !important;
+  font-weight: 700 !important;
+  margin-bottom: 10px;
+}
+
+/* line 138, ../sass/akvo_style.scss */
+h1 {
+  color: #2c2a74 !important;
+  font-size: 2.9em;
+  line-height: 1.2em;
+}
+
+/* line 144, ../sass/akvo_style.scss */
+h2 {
+  font-size: 38px;
+  line-height: 42px;
+}
+
+/* line 149, ../sass/akvo_style.scss */
+h3 {
+  font-size: 32px;
+  line-height: 38px;
+}
+
+/* line 154, ../sass/akvo_style.scss */
+h4 {
+  font-size: 27px;
+  line-height: 34px;
+}
+
+/* line 159, ../sass/akvo_style.scss */
+h5 {
+  font-size: 23px;
+  line-height: 29px;
+}
+
+/* line 164, ../sass/akvo_style.scss */
+h6 {
+  font-size: 18px;
+  line-height: 25px;
+}
+
+/* line 170, ../sass/akvo_style.scss */
+h2.download {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* line 175, ../sass/akvo_style.scss */
+div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
+  display: none;
+}
+
+/* line 179, ../sass/akvo_style.scss */
+.list-group {
+  margin-bottom: 0px !important;
+}
+/* line 181, ../sass/akvo_style.scss */
+.list-group .addressbox.first {
+  margin-bottom: 2px;
+}
+/* line 184, ../sass/akvo_style.scss */
+.list-group a {
+  text-decoration: none !important;
+  color: #202024 !important;
+}
+/* line 188, ../sass/akvo_style.scss */
+.list-group .addressbox.active {
+  background: #e6e6e6 !important;
+}
+
+/* line 194, ../sass/akvo_style.scss */
+.hovercontent p, .hovercontent strong, .hovercontent a {
+  font-style: italic !important;
+}
+
+/* line 199, ../sass/akvo_style.scss */
+.wrapper.center {
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* line 205, ../sass/akvo_style.scss */
+nav.anchorNav ul li a, nav.anchorNav2 ul li a {
+  text-decoration: none !important;
+}
+/* line 208, ../sass/akvo_style.scss */
+nav.anchorNav, nav.anchorNav2 {
+  padding: 15px 0px;
+}
+
+/* line 214, ../sass/akvo_style.scss */
+ul.staff {
+  padding: 0px !important;
+  width: 100% !important;
+  list-style-type: none;
+  height: 100%;
+}
+/* line 219, ../sass/akvo_style.scss */
+ul.staff li {
+  width: 33.05%;
+  padding: 2%;
+  margin: 0 !important;
+  display: block;
+  float: left;
+}
+/* line 225, ../sass/akvo_style.scss */
+ul.staff li div.imgWrapper {
+  background: #fff !important;
+  padding: 0px !important;
+  width: 100% !important;
+  max-height: 217px;
+  overflow: hidden;
+}
+/* line 232, ../sass/akvo_style.scss */
+ul.staff li:nth-child(3n+1) {
+  clear: left;
+}
+/* line 237, ../sass/akvo_style.scss */
+ul.help {
+  padding: 0px !important;
+  width: 100% !important;
+  list-style-type: none;
+  height: 100%;
+}
+/* line 242, ../sass/akvo_style.scss */
+ul.help.companies {
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+/* line 247, ../sass/akvo_style.scss */
+ul.help li {
+  width: 33.05%;
+  padding: 2%;
+  margin: 0 !important;
+  display: block;
+  float: left;
+  cursor: pointer;
+}
+/* line 255, ../sass/akvo_style.scss */
+ul.help.companies li {
+  width: 20% !important;
+}
+/* line 257, ../sass/akvo_style.scss */
+ul.help.companies li img {
+  width: 100% !important;
+  height: auto !important;
+}
+/* line 263, ../sass/akvo_style.scss */
+ul.help li div.imgWrapper {
+  background: #fff !important;
+  padding: 0px !important;
+  width: 100% !important;
+  max-height: 217px;
+  overflow: hidden;
+}
+/* line 270, ../sass/akvo_style.scss */
+ul.help li:nth-child(3n+1) {
+  clear: left;
+}
+/* line 275, ../sass/akvo_style.scss */
+ul.help.companies li:nth-child(3n+1) {
+  clear: none !important;
+}
+/* line 278, ../sass/akvo_style.scss */
+ul.help.companies li:nth-child(5n+1) {
+  clear: left !important;
+}
+/* line 283, ../sass/akvo_style.scss */
+ul.help li img {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+/* line 287, ../sass/akvo_style.scss */
+ul.help li:hover img {
+  -webkit-filter: none !important;
+  filter: none !important;
+}
+
+/* line 295, ../sass/akvo_style.scss */
+.microstoriesbox {
+  display: block;
+  min-height: 650px;
+  height: 100%;
+  width: 100%;
+}
+
+/* line 302, ../sass/akvo_style.scss */
+ul.staff li .hovercontent {
+  opacity: 0;
+  padding: 0px;
+  display: block;
+  margin-top: -210px;
+  margin-bottom: 94px;
+  position: relative;
+  width: 100%;
+}
+
+/* line 312, ../sass/akvo_style.scss */
+.featured .hovercontent {
+  color: #fff !important;
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-moz-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* line 384, ../sass/akvo_style.scss */
+ul.staff li:hover .imgWrapper {
+  opacity: 0;
+  -webkit-animation: fadeOut ease-in 1;
+  -moz-animation: fadeOut ease-in 1;
+  animation: fadeOut ease-in 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  animation-duration: 1s;
+  cursor: pointer;
+}
+/* line 397, ../sass/akvo_style.scss */
+ul.staff li:hover .hovercontent {
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  animation-duration: 1s;
+}
+/* line 410, ../sass/akvo_style.scss */
+ul.staff li a {
+  text-decoration: none !important;
+  color: #202024;
+}
+
+/* line 417, ../sass/akvo_style.scss */
+nav.anchorNav, nav.anchorNav2 {
+  background: none !important;
+}
+
+/* line 423, ../sass/akvo_style.scss */
+ul li.location a {
+  color: #202024 !important;
+  border-radius: 0px !important;
+}
+/* line 426, ../sass/akvo_style.scss */
+ul li.location a:hover {
+  color: #202024 !important;
+  background: #f0f0f0 !important;
+  box-shadow: none !important;
+}
+/* line 432, ../sass/akvo_style.scss */
+ul li.group a {
+  color: #797979 !important;
+  border-radius: 0px !important;
+}
+/* line 435, ../sass/akvo_style.scss */
+ul li.group a:hover {
+  color: #797979 !important;
+  background: #f0f0f0 !important;
+  box-shadow: none !important;
+}
+/* line 441, ../sass/akvo_style.scss */
+ul li.phase a {
+  color: #aaa8a8 !important;
+  border-radius: 0px !important;
+}
+/* line 444, ../sass/akvo_style.scss */
+ul li.phase a:hover {
+  color: #aaa8a8 !important;
+  background: #f0f0f0 !important;
+  box-shadow: none !important;
+}
+
+/* line 453, ../sass/akvo_style.scss */
+.introtext p {
+  font-size: 1.3em;
+  line-height: 1.3em;
+  margin-bottom: 40px;
+}
+/* line 458, ../sass/akvo_style.scss */
+.introtext h1.maintitle {
+  font-size: 2.50em;
+  font-weight: bold;
+  text-align: left !important;
+  color: #000 !important;
+}
+
+/* line 466, ../sass/akvo_style.scss */
+a.buttonblack, button.buttonblack {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Assistant", sans-serif !important;
+  font-size: 16px !important;
+  padding: 1em 2em;
+  background: transparent;
+  border: 2px solid #000000;
+  color: #000000 !important;
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1em;
+  margin: 0 auto;
+}
+
+/* line 489, ../sass/akvo_style.scss */
+a.buttonblack:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* line 495, ../sass/akvo_style.scss */
+button.buttonblack:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+/* line 499, ../sass/akvo_style.scss */
+button.buttonwhite {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Assistant", sans-serif !important;
+  font-size: 16px !important;
+  padding: 1em 2em;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff !important;
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1em;
+  margin: 0 auto;
+}
+/* line 520, ../sass/akvo_style.scss */
+button.buttonwhite:hover {
+  background: #fff !important;
+  color: #202023 !important;
+}
+
+/* line 527, ../sass/akvo_style.scss */
+.staffName.company {
+  font-weight: bold;
+}
+
+/* line 531, ../sass/akvo_style.scss */
+.introtext a.buttonblack {
+  font-size: 16px !important;
+}
+
+/* line 535, ../sass/akvo_style.scss */
+.blogfeature {
+  background: #fff !important;
+}
+
+/* line 539, ../sass/akvo_style.scss */
+.featured {
+  background: #404898 !important;
+}
+/* line 541, ../sass/akvo_style.scss */
+.featured .staffName.company {
+  color: #fff !important;
+}
+
+@media screen and (max-width: 1024px) and (min-width: 768px) {
+  /* line 548, ../sass/akvo_style.scss */
+  ul.staff li {
+    width: 46%;
+  }
+  /* line 550, ../sass/akvo_style.scss */
+  ul.staff li div.imgWrapper {
+    max-height: 350px;
+  }
+  /* line 553, ../sass/akvo_style.scss */
+  ul.staff li:nth-child(3n+1) {
+    clear: none;
+  }
+  /* line 556, ../sass/akvo_style.scss */
+  ul.staff li:nth-child(2n+1) {
+    clear: left;
+  }
+  /* line 560, ../sass/akvo_style.scss */
+  ul.help.companies li {
+    width: 33% !important;
+  }
+  /* line 562, ../sass/akvo_style.scss */
+  ul.help.companies li div.imgWrapper {
+    max-height: 350px !important;
+  }
+  /* line 565, ../sass/akvo_style.scss */
+  ul.help.companies li:nth-child(5n+1) {
+    clear: none !important;
+  }
+  /* line 568, ../sass/akvo_style.scss */
+  ul.help.companies li:nth-child(3n+1) {
+    clear: left !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  /* line 577, ../sass/akvo_style.scss */
+  nav.anchorNav ul li, nav.anchorNav2 ul li {
+    background: none !important;
+    display: inline-block !important;
+    padding: 10px !important;
+  }
+  /* line 582, ../sass/akvo_style.scss */
+  nav.anchorNav ul li a, nav.anchorNav2 ul li a {
+    font-size: 16px !important;
+  }
+
+  /* line 587, ../sass/akvo_style.scss */
+  ul.mobilehidesorting {
+    display: none;
+  }
+  /* line 590, ../sass/akvo_style.scss */
+  ul.staff li {
+    width: 96%;
+  }
+  /* line 591, ../sass/akvo_style.scss */
+  ul.staff li div.imgWrapper {
+    max-height: 350px;
+  }
+  /* line 596, ../sass/akvo_style.scss */
+  ul.help.companies li {
+    width: 48% !important;
+    display: inline-block !important;
+    float: none !important;
+  }
+  /* line 597, ../sass/akvo_style.scss */
+  ul.help.companies li div.imgWrapper {
+    max-height: 350px !important;
+  }
+  /* line 603, ../sass/akvo_style.scss */
+  ul.help.companies li:nth-child(3n+1) {
+    clear: none !important;
+  }
+}
+/* line 610, ../sass/akvo_style.scss */
+.navbar-brand {
+  font-size: 24px;
+}
+
+/* line 614, ../sass/akvo_style.scss */
+.navbar-container {
+  padding: 0px;
+}
+
+/* line 618, ../sass/akvo_style.scss */
+.navbar.navbar-fixed-top.fixed-theme {
+  background-color: #222;
+  border-color: #080808;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+/* line 624, ../sass/akvo_style.scss */
+.navbar-brand.fixed-theme {
+  font-size: 18px;
+}
+
+/* line 628, ../sass/akvo_style.scss */
+.navbar-container.fixed-theme {
+  padding: 0;
+}
+
+/* line 632, ../sass/akvo_style.scss */
+.navbar-brand.fixed-theme, .navbar-container.fixed-theme, .navbar.navbar-fixed-top.fixed-theme, .navbar-brand, .navbar-container {
+  transition: 0.8s;
+  -webkit-transition: 0.8s;
+}
+
+/* line 637, ../sass/akvo_style.scss */
+.navbar-nav > li > a {
+  color: #fff !important;
+  background: none !important;
+  font-size: 17px;
+}
+
+/* line 643, ../sass/akvo_style.scss */
+.navbar-toggle .icon-bar {
+  color: #fff !important;
+  background: #fff !important;
+}
+
+/* line 648, ../sass/akvo_style.scss */
+.navbar-nav > li > a:hover {
+  background: none !important;
+  color: #404898 !important;
+}
+
+/* line 653, ../sass/akvo_style.scss */
+nav#header {
+  background: #202024;
+}
+
+/* line 657, ../sass/akvo_style.scss */
+li a.dropdown-toggle:hover {
+  cursor: pointer !important;
+}
+
+/* line 661, ../sass/akvo_style.scss */
+.logobrand {
+  display: inline-block;
+  max-width: 120px;
+  margin-bottom: -5px;
+}
+
+/* line 667, ../sass/akvo_style.scss */
+.navbar-brand {
+  padding: 6px 15px;
+}
+
+/* line 671, ../sass/akvo_style.scss */
+.dropdown-menu {
+  background: #202024 !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  border: none !important;
+}
+/* line 677, ../sass/akvo_style.scss */
+.dropdown-menu a {
+  color: #fff !important;
+  font-size: 15px;
+}
+/* line 681, ../sass/akvo_style.scss */
+.dropdown-menu li:hover {
+  background: #202024 !important;
+  background-color: #202024 !important;
+}
+/* line 685, ../sass/akvo_style.scss */
+.dropdown-menu a:hover {
+  color: #404898 !important;
+  background: #202024 !important;
+  background-color: #202024 !important;
+}
+
+/* line 692, ../sass/akvo_style.scss */
+.navbar-nav {
+  margin-left: 20px;
+}
+
+/* line 696, ../sass/akvo_style.scss */
+#search {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(32, 32, 36, 0.9);
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: translate(0px, 0px) scale(0, 0);
+  -moz-transform: translate(0px, 0px) scale(0, 0);
+  -o-transform: translate(0px, 0px) scale(0, 0);
+  -ms-transform: translate(0px, 0px) scale(0, 0);
+  transform: translate(0px, 0px) scale(0, 0);
+  z-index: 99999999;
+  opacity: 0;
+}
+/* line 715, ../sass/akvo_style.scss */
+#search.open {
+  -webkit-transform: translate(0px, 0px) scale(1, 1);
+  -moz-transform: translate(0px, 0px) scale(1, 1);
+  -o-transform: translate(0px, 0px) scale(1, 1);
+  -ms-transform: translate(0px, 0px) scale(1, 1);
+  transform: translate(0px, 0px) scale(1, 1);
+  opacity: 1;
+}
+/* line 724, ../sass/akvo_style.scss */
+#search input[type="search"], #search input[type="text"] {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  width: 100% !important;
+  color: white;
+  background: transparent;
+  font-size: 40px;
+  font-weight: 300;
+  text-align: center;
+  border: 0px;
+  margin: 0px auto;
+  margin-top: -51px;
+  padding-left: 30px;
+  padding-right: 30px;
+  outline: none;
+}
+/* line 748, ../sass/akvo_style.scss */
+#search .btn {
+  position: absolute;
+  top: 50%;
+  left: 49%;
+  margin-top: 61px;
+  margin-left: -45px;
+  width: auto;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-size: 16px !important;
+  padding: 1em 2em;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff !important;
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em;
+  text-shadow: none !important;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1em;
+}
+/* line 770, ../sass/akvo_style.scss */
+#search .btn:hover {
+  background: #fff !important;
+  color: #404898 !important;
+}
+/* line 775, ../sass/akvo_style.scss */
+#search .close {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 1;
+  padding: 10px 17px;
+  font-size: 27px;
+  z-index: 99999999999999999999999 !important;
+}
+
+/* line 789, ../sass/akvo_style.scss */
+::-webkit-input-placeholder, ::-moz-placeholder, :-ms-input-placeholder, :-moz-placeholder {
+  color: #fff !important;
+}
+
+@media screen and (max-width: 768px) {
+  /* line 794, ../sass/akvo_style.scss */
+  nav#header {
+    background: none !important;
+  }
+  /* line 796, ../sass/akvo_style.scss */
+  nav#header .navbar-header {
+    background: #202024;
+  }
+
+  /* line 800, ../sass/akvo_style.scss */
+  .navbar-collapse {
+    background: #202024;
+    width: 100% !important;
+    overflow: hidden;
+    -moz-border-radius: 0em !important;
+    -o-border-radius: 0em !important;
+    -webkit-border-radius: 0em !important;
+    border-radius: 0em !important;
+  }
+
+  /* line 809, ../sass/akvo_style.scss */
+  .navbar-container {
+    padding: 0px !important;
+  }
+
+  /* line 812, ../sass/akvo_style.scss */
+  .logobrand {
+    margin-left: 30px;
+  }
+}
+/* line 817, ../sass/akvo_style.scss */
+#footer {
+  margin-top: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background: #202024 !important;
+}
+/* line 822, ../sass/akvo_style.scss */
+#footer.peopletop {
+  margin-top: 0px !important;
+}
+/* line 825, ../sass/akvo_style.scss */
+#footer .textwidget {
+  margin-bottom: 20px;
+}
+/* line 826, ../sass/akvo_style.scss */
+#footer h5 {
+  font-weight: bold;
+  font-size: 20px;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+  color: #ffffff !important;
+}
+/* line 833, ../sass/akvo_style.scss */
+#footer p {
+  color: #fff;
+}
+/* line 836, ../sass/akvo_style.scss */
+#footer h4 {
+  color: #fff;
+  font-weight: bold;
+}
+/* line 840, ../sass/akvo_style.scss */
+#footer a {
+  color: #ffffff;
+  font-size: 16px !important;
+  line-height: 21px !important;
+  text-decoration: none !important;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+/* line 847, ../sass/akvo_style.scss */
+#footer a:hover {
+  color: #404898 !important;
+  font-weight: normal !important;
+}
+/* line 853, ../sass/akvo_style.scss */
+#footer ul.social li {
+  padding: 3px 0;
+}
+/* line 855, ../sass/akvo_style.scss */
+#footer ul.social li a i {
+  margin-right: 5px;
+  font-size: 25px;
+  -webkit-transition: .5s all ease;
+  -moz-transition: .5s all ease;
+  transition: .5s all ease;
+}
+/* line 862, ../sass/akvo_style.scss */
+#footer ul.social li:hover a i {
+  font-size: 30px;
+  color: #404898 !important;
+  margin-top: -10px;
+}
+/* line 867, ../sass/akvo_style.scss */
+#footer ul.social li a {
+  color: #ffffff;
+}
+/* line 871, ../sass/akvo_style.scss */
+#footer ul.quick-links li a {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 21px;
+}
+/* line 876, ../sass/akvo_style.scss */
+#footer ul.social li a:hover {
+  color: #eeeeee;
+}
+/* line 879, ../sass/akvo_style.scss */
+#footer ul.quick-links {
+  margin-top: -5px;
+}
+/* line 880, ../sass/akvo_style.scss */
+#footer ul.quick-links li {
+  padding: 0;
+  -webkit-transition: .5s all ease;
+  -moz-transition: .5s all ease;
+  transition: .5s all ease;
+}
+/* line 885, ../sass/akvo_style.scss */
+#footer ul.quick-links li:hover {
+  padding: 0;
+}
+/* line 888, ../sass/akvo_style.scss */
+#footer ul.quick-links li a i {
+  margin-right: 5px;
+}
+/* line 891, ../sass/akvo_style.scss */
+#footer ul.quick-links li:hover a i {
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  /* line 901, ../sass/akvo_style.scss */
+  .navbar-nav {
+    margin-left: 0px !important;
+  }
+
+  /* line 904, ../sass/akvo_style.scss */
+  #footer h5 {
+    padding-left: 0;
+    border-left: transparent;
+    padding-bottom: 0px;
+    margin-bottom: 10px;
+  }
+}
+@media (min-width: 780px) {
+  /* line 914, ../sass/akvo_style.scss */
+  .dropdown-menu .sub-menu {
+    left: 100% !important;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    margin-top: -1px;
+  }
+  /* line 921, ../sass/akvo_style.scss */
+  .dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+  }
+
+  /* line 925, ../sass/akvo_style.scss */
+  .dropdown:hover > .dropdown-menu {
+    display: block;
+  }
+}
+/* line 930, ../sass/akvo_style.scss */
+.massivetitle {
+  color: #404898 !important;
+  font-size: 7.75rem !important;
+  margin-bottom: 20px !important;
+  line-height: 8.75rem !important;
+  padding-bottom: 20px !important;
+}
+
+/* line 938, ../sass/akvo_style.scss */
+.thin, .roboto-thin {
+  font-weight: 300 !important;
+  line-height: 30px;
+}
+
+/* line 944, ../sass/akvo_style.scss */
+.newsletterform input.signup {
+  -moz-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  width: 66%;
+  font-size: 16px !important;
+  padding: 6px 20px;
+  background: transparent;
+  border-radius: 0px !important;
+  border: 1px solid #000 !important;
+  color: #000;
+  background: #fff !important;
+}
+/* line 957, ../sass/akvo_style.scss */
+.newsletterform input.signup.name {
+  -moz-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  width: 49% !important;
+  margin-bottom: 10px;
+  display: inline-block;
+  background: #fff !important;
+}
+/* line 966, ../sass/akvo_style.scss */
+.newsletterform input.signup.name.left {
+  margin-right: 1%;
+}
+/* line 969, ../sass/akvo_style.scss */
+.newsletterform input.signup.name.right {
+  margin-left: 1%;
+}
+/* line 974, ../sass/akvo_style.scss */
+.newsletterform textarea {
+  width: 100%;
+  -moz-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  padding: 10px 20px;
+  font-size: 16px !important;
+  background: transparent;
+  border-radius: 0px !important;
+  border: 1px solid #000 !important;
+  color: #000;
+  background: #fff !important;
+}
+/* line 988, ../sass/akvo_style.scss */
+.newsletterform input.signup.email {
+  background: #fff !important;
+  -moz-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  margin-bottom: 10px;
+}
+/* line 997, ../sass/akvo_style.scss */
+.newsletterform select {
+  border: 1px solid #000 !important;
+  padding: 10px 20px !important;
+  width: 100%;
+  font-size: 16px !important;
+  margin-bottom: 10px;
+}
+/* line 1005, ../sass/akvo_style.scss */
+.newsletterform input[type=button], .newsletterform input[type=submit] {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+/* line 1010, ../sass/akvo_style.scss */
+.newsletterform button.button, .newsletterform .button {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-size: 16px !important;
+  padding: 10px 20px;
+  background: #404898;
+  border: 2px solid #404898;
+  color: #fff !important;
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em;
+  text-shadow: none !important;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1em;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* line 1036, ../sass/akvo_style.scss */
+input[type=button], input[type=submit] {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-size: 16px !important;
+  padding: 10px 20px;
+  background: #404898;
+  border: 2px solid #404898;
+  color: #fff !important;
+  -webkit-border-radius: 0em;
+  -moz-border-radius: 0em;
+  border-radius: 0em;
+  text-shadow: none !important;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1em;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* line 1062, ../sass/akvo_style.scss */
+.newsletterform button.button:hover, .newsletterform .button:hover {
+  background: #fff !important;
+  border-color: #404898 !important;
+  color: #404898 !important;
+}
+
+/* line 1070, ../sass/akvo_style.scss */
+input[type=button]:hover, input[type=submit]:hover {
+  background: #fff !important;
+  border-color: #404898 !important;
+  color: #404898 !important;
+}
+
+/* line 1080, ../sass/akvo_style.scss */
+.newsletterform input[type=button].next, .newsletterform input[type=button].previous {
+  max-width: 20%;
+}
+/* line 1084, ../sass/akvo_style.scss */
+.newsletterform input[type=submit].submitbigform {
+  max-width: 20% !important;
+}
+/* line 1088, ../sass/akvo_style.scss */
+.newsletterform fieldset {
+  position: relative;
+}
+
+/* line 1093, ../sass/akvo_style.scss */
+.customer-logos img {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+/* line 1098, ../sass/akvo_style.scss */
+.newsletterform fieldset:not(:first-of-type) {
+  display: none;
+}
+
+/* line 1102, ../sass/akvo_style.scss */
+.nopadding {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+/* line 1107, ../sass/akvo_style.scss */
+.lessbottom {
+  margin-bottom: 10px !important;
+}
+
+/* line 1111, ../sass/akvo_style.scss */
+.desktoppadding {
+  padding-right: 40px !important;
+}
+
+/* line 1115, ../sass/akvo_style.scss */
+.aligncenter {
+  text-align: center;
+}
+
+/* line 1119, ../sass/akvo_style.scss */
+.articlesdropdown {
+  padding: 17px 10px;
+  width: 80%;
+  margin-right: 2%;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 768px) and (min-width: 0) {
+  /* line 1128, ../sass/akvo_style.scss */
+  .newsletterform input.signup {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+  /* line 1129, ../sass/akvo_style.scss */
+  .newsletterform input.signup.name {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+  /* line 1136, ../sass/akvo_style.scss */
+  .newsletterform button.button {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* line 1141, ../sass/akvo_style.scss */
+  .desktoppadding {
+    padding-right: 0px !important;
+  }
+
+  /* line 1144, ../sass/akvo_style.scss */
+  .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    max-height: 100% !important;
+  }
+
+  /* line 1147, ../sass/akvo_style.scss */
+  #navbar {
+    display: none;
+  }
+  /* line 1149, ../sass/akvo_style.scss */
+  #navbar.in {
+    display: block !important;
+  }
+
+  /* line 1153, ../sass/akvo_style.scss */
+  .dropdown-menu a {
+    font-size: 14px !important;
+    line-height: 26px !important;
+  }
+}
+@media only screen and (max-width: 995px) {
+  /* line 1161, ../sass/akvo_style.scss */
+  .newsletterform input.signup {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+  /* line 1162, ../sass/akvo_style.scss */
+  .newsletterform input.signup.name {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+  /* line 1169, ../sass/akvo_style.scss */
+  .newsletterform button.button {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* line 1174, ../sass/akvo_style.scss */
+  .navbar-nav > li > a, .dropdown-menu a {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-width: 1190px) {
+  /* line 1181, ../sass/akvo_style.scss */
+  .newsletterform input.signup {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+  /* line 1182, ../sass/akvo_style.scss */
+  .newsletterform input.signup.name {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+  /* line 1189, ../sass/akvo_style.scss */
+  .newsletterform button.button {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* line 1194, ../sass/akvo_style.scss */
+  .articlesdropdown {
+    width: 70%;
+  }
+}
+/* line 1199, ../sass/akvo_style.scss */
+.modal-dialog {
+  margin-top: 5%;
+}
+
+/* line 1203, ../sass/akvo_style.scss */
+.modal-header {
+  padding-bottom: 5px;
+}
+
+/* line 1207, ../sass/akvo_style.scss */
+.modal-footer {
+  padding: 0;
+}
+/* line 1210, ../sass/akvo_style.scss */
+.modal-footer .btn-group button {
+  height: 40px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: none;
+  border-right: 1px solid #ddd;
+}
+/* line 1217, ../sass/akvo_style.scss */
+.modal-footer .btn-group:last-child > button {
+  border-right: 0;
+}
+
+/* line 1223, ../sass/akvo_style.scss */
+body.modal-open {
+  padding-right: 0px !important;
+}
+
+/* line 1228, ../sass/akvo_style.scss */
+.modalinput::-webkit-input-placeholder, .modalinput:-moz-placeholder, .modalinput::-moz-placeholder, .modalinput:-ms-input-placeholder {
+  color: #202024 !important;
+}
+
+/* line 1234, ../sass/akvo_style.scss */
+.modal-body form label.form-check-label {
+  width: 96%;
+  font-weight: normal !important;
+  line-height: 18px !important;
+  font-size: 13px !important;
+  color: #202024 !important;
+}
+/* line 1241, ../sass/akvo_style.scss */
+.modal-body form .form-check {
+  margin-bottom: 5px !important;
+}
+/* line 1244, ../sass/akvo_style.scss */
+.modal-body form input[type=checkbox] {
+  vertical-align: top !important;
+}
+
+/* line 1249, ../sass/akvo_style.scss */
+.navbar-brand > img {
+  max-width: 105px;
+}
+
+/* line 1253, ../sass/akvo_style.scss */
+.fullwidth {
+  width: 100% !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+/* line 1257, ../sass/akvo_style.scss */
+.fullwidth.paddingboth {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+/* line 1261, ../sass/akvo_style.scss */
+.fullwidth.paddingtop {
+  padding-top: 60px;
+}
+/* line 1264, ../sass/akvo_style.scss */
+.fullwidth.paddingbottom {
+  padding-bottom: 60px;
+}
+
+/* line 1269, ../sass/akvo_style.scss */
+.paddingtop {
+  padding-top: 60px;
+}
+
+/* line 1273, ../sass/akvo_style.scss */
+.paddingbottom {
+  padding-bottom: 60px;
+}
+
+/* line 1277, ../sass/akvo_style.scss */
+.paddingboth {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* line 1282, ../sass/akvo_style.scss */
+#myCarousel {
+  padding-top: 20px;
+}
+/* line 1284, ../sass/akvo_style.scss */
+#myCarousel .nav {
+  background: #eee;
+}
+/* line 1285, ../sass/akvo_style.scss */
+#myCarousel .nav a {
+  border-radius: 0px;
+}
+/* line 1286, ../sass/akvo_style.scss */
+#myCarousel .nav a small {
+  display: block;
+}
+
+/* line 1295, ../sass/akvo_style.scss */
+.carousel-inner .item {
+  background-size: cover !important;
+  height: 600px !important;
+  width: 100% !important;
+  background-position: 50% 26% !important;
+}
+
+/* line 1302, ../sass/akvo_style.scss */
+.carousel-caption {
+  text-shadow: none !important;
+  bottom: 15%;
+  text-align: left;
+  right: auto !important;
+  left: auto !important;
+}
+
+/* line 1310, ../sass/akvo_style.scss */
+.homeslider .carousel-caption {
+  padding-right: 20% !important;
+}
+
+/* line 1314, ../sass/akvo_style.scss */
+.carousel-caption h1, h1.slidertitle, .slidertitle {
+  text-shadow: none !important;
+  padding-bottom: 0px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  color: #202024 !important;
+  font-size: 6rem !important;
+  background: #fff;
+  margin-bottom: 20px !important;
+  -webkit-margin-after: 0px !important;
+  line-height: 8.75rem !important;
+  display: inline;
+  -webkit-box-decoration-break: clone;
+  -ms-box-decoration-break: clone;
+  -o-box-decoration-break: clone;
+  box-decoration-break: clone;
+  line-height: 105px !important;
+}
+
+/* line 1334, ../sass/akvo_style.scss */
+body.microstory h3.thin, body.microstory small {
+  font-family: "Assistant", sans-serif !important;
+}
+/* line 1337, ../sass/akvo_style.scss */
+body.microstory h3.smaller {
+  font-size: 17px;
+}
+
+/* line 1342, ../sass/akvo_style.scss */
+img.slidelogo {
+  margin-bottom: 20px;
+}
+
+/* line 1346, ../sass/akvo_style.scss */
+.carousel-caption.microstory {
+  padding-right: 27%;
+}
+/* line 1348, ../sass/akvo_style.scss */
+.carousel-caption.microstory.largeimage h4 {
+  font-size: 24px;
+  padding: 5px;
+  background: #fff;
+  color: #202024 !important;
+}
+
+/* line 1356, ../sass/akvo_style.scss */
+iframe#toolframe {
+  height: 100%;
+  border: none !important;
+  max-height: 1800px;
+  min-height: 1000px;
+}
+
+/* line 1363, ../sass/akvo_style.scss */
+.statistics i {
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: #404898 !important;
+}
+
+/* line 1369, ../sass/akvo_style.scss */
+.partnerlogo {
+  max-width: 80px;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* line 1376, ../sass/akvo_style.scss */
+.statistics .stattitle {
+  margin-bottom: 25px;
+  border-bottom: 1px solid #d1d1d1;
+  padding-bottom: 20px;
+}
+
+/* line 1382, ../sass/akvo_style.scss */
+img.toollogo {
+  width: 100%;
+  max-width: 115px;
+}
+
+/* line 1387, ../sass/akvo_style.scss */
+.stat {
+  padding-bottom: 15px;
+}
+/* line 1389, ../sass/akvo_style.scss */
+.stat:nth-of-type(odd) {
+  background-color: transparent;
+}
+/* line 1392, ../sass/akvo_style.scss */
+.stat:nth-of-type(even) {
+  background-color: #fff;
+}
+
+/* line 1397, ../sass/akvo_style.scss */
+.statistics.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+/* line 1403, ../sass/akvo_style.scss */
+.statistics.row > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* line 1409, ../sass/akvo_style.scss */
+.col-xs-5ths, .col-sm-5ths, .col-md-5ths, .col-lg-5ths {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* line 1416, ../sass/akvo_style.scss */
+.col-xs-5ths {
+  width: 20%;
+  float: left;
+}
+
+@media (min-width: 768px) {
+  /* line 1422, ../sass/akvo_style.scss */
+  .col-sm-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+@media (min-width: 992px) {
+  /* line 1429, ../sass/akvo_style.scss */
+  .col-md-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 1436, ../sass/akvo_style.scss */
+  .col-lg-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+/* line 1442, ../sass/akvo_style.scss */
+.counter {
+  padding: 20px 0;
+  border-radius: 5px;
+}
+
+/* line 1447, ../sass/akvo_style.scss */
+.count-title {
+  font-size: 40px;
+  font-weight: normal;
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+/* line 1455, ../sass/akvo_style.scss */
+.count-text {
+  font-size: 13px;
+  font-weight: normal;
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+/* line 1463, ../sass/akvo_style.scss */
+.fa-2x {
+  margin: 0 auto;
+  float: none;
+  display: table;
+  color: #404898;
+}
+
+/* line 1470, ../sass/akvo_style.scss */
+section {
+  padding: 60px 0;
+}
+/* line 1472, ../sass/akvo_style.scss */
+section .section-title {
+  text-align: center;
+  color: #404898;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+}
+
+/* line 1480, ../sass/akvo_style.scss */
+#what-we-do {
+  background: #ffffff;
+}
+/* line 1482, ../sass/akvo_style.scss */
+#what-we-do .card {
+  padding: 1rem !important;
+  border: none;
+  margin-bottom: 1rem;
+  -webkit-transition: .5s all ease;
+  -moz-transition: .5s all ease;
+  transition: .5s all ease;
+}
+/* line 1489, ../sass/akvo_style.scss */
+#what-we-do .card:hover {
+  -webkit-box-shadow: 5px 7px 9px -4px #9e9e9e;
+  -moz-box-shadow: 5px 7px 9px -4px #9e9e9e;
+  box-shadow: 5px 7px 9px -4px #9e9e9e;
+}
+/* line 1494, ../sass/akvo_style.scss */
+#what-we-do .card .card-block {
+  padding-left: 50px;
+  position: relative;
+}
+/* line 1497, ../sass/akvo_style.scss */
+#what-we-do .card .card-block a {
+  color: #404898 !important;
+  font-weight: 700;
+  text-decoration: none;
+}
+/* line 1501, ../sass/akvo_style.scss */
+#what-we-do .card .card-block a i {
+  display: none;
+}
+/* line 1506, ../sass/akvo_style.scss */
+#what-we-do .card:hover .card-block a i {
+  display: inline-block;
+  font-weight: 700;
+}
+/* line 1510, ../sass/akvo_style.scss */
+#what-we-do .card .card-block:before {
+  font-family: FontAwesome;
+  position: absolute;
+  font-size: 39px;
+  color: #404898;
+  left: 0;
+  -webkit-transition: -webkit-transform .2s ease-in-out;
+  transition: transform .2s ease-in-out;
+}
+/* line 1519, ../sass/akvo_style.scss */
+#what-we-do .card .block-1:before {
+  content: "\f0e7";
+}
+/* line 1522, ../sass/akvo_style.scss */
+#what-we-do .card .block-2:before {
+  content: "\f0eb";
+}
+/* line 1525, ../sass/akvo_style.scss */
+#what-we-do .card .block-3:before {
+  content: "\f00c";
+}
+/* line 1528, ../sass/akvo_style.scss */
+#what-we-do .card .block-4:before {
+  content: "\f209";
+}
+/* line 1531, ../sass/akvo_style.scss */
+#what-we-do .card .block-5:before {
+  content: "\f0a1";
+}
+/* line 1534, ../sass/akvo_style.scss */
+#what-we-do .card .block-6:before {
+  content: "\f218";
+}
+/* line 1537, ../sass/akvo_style.scss */
+#what-we-do .card:hover .card-block:before {
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+  -webkit-transition: .5s all ease;
+  -moz-transition: .5s all ease;
+  transition: .5s all ease;
+}
+
+/* line 1547, ../sass/akvo_style.scss */
+#toTop {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  display: none;
+  background: #404898 !important;
+  border-color: #404898 !important;
+}
+
+/* line 1557, ../sass/akvo_style.scss */
+.bg-light-gray {
+  background: #f8f8f8;
+  background-color: #f8f8f8;
+}
+
+/* line 1562, ../sass/akvo_style.scss */
+.bg-gray {
+  background: #e6e6e6;
+  background-color: #e6e6e6;
+}
+
+/* line 1567, ../sass/akvo_style.scss */
+.questionnaire {
+  background-color: #e2e3ea;
+  position: relative;
+  padding: 70px 20px 70px 20px;
+}
+/* line 1571, ../sass/akvo_style.scss */
+.questionnaire h2 span {
+  color: #404898;
+  font-weight: 700 !important;
+}
+
+/* line 1577, ../sass/akvo_style.scss */
+.gettoknowus {
+  background: url(waterbg.jpg) repeat;
+  padding: 70px 20px 70px 20px;
+}
+
+/* line 1582, ../sass/akvo_style.scss */
+.video {
+  height: 0;
+  text-align: center;
+  position: relative;
+  padding-bottom: 56.25%;
+}
+/* line 1587, ../sass/akvo_style.scss */
+.video iframe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 1597, ../sass/akvo_style.scss */
+.slick-slide {
+  margin: 0px 20px;
+}
+/* line 1599, ../sass/akvo_style.scss */
+.slick-slide img {
+  width: 100%;
+}
+
+/* line 1604, ../sass/akvo_style.scss */
+.slick-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* line 1619, ../sass/akvo_style.scss */
+.slick-list {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+/* line 1625, ../sass/akvo_style.scss */
+.slick-list:focus {
+  outline: none;
+}
+/* line 1628, ../sass/akvo_style.scss */
+.slick-list.dragging {
+  cursor: pointer;
+  cursor: hand;
+}
+
+/* line 1635, ../sass/akvo_style.scss */
+.slick-slider .slick-track, .slick-slider .slick-list {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* line 1644, ../sass/akvo_style.scss */
+.slick-track {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+}
+/* line 1649, ../sass/akvo_style.scss */
+.slick-track:before {
+  display: table;
+  content: '';
+}
+/* line 1653, ../sass/akvo_style.scss */
+.slick-track:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+
+/* line 1660, ../sass/akvo_style.scss */
+.slick-loading .slick-track {
+  visibility: hidden;
+}
+
+/* line 1664, ../sass/akvo_style.scss */
+.slick-slide {
+  display: none;
+  float: left;
+  height: 100%;
+  min-height: 1px;
+}
+
+/* line 1671, ../sass/akvo_style.scss */
+[dir='rtl'] .slick-slide {
+  float: right;
+}
+
+/* line 1676, ../sass/akvo_style.scss */
+.slick-slide img {
+  display: block;
+}
+/* line 1679, ../sass/akvo_style.scss */
+.slick-slide.slick-loading img {
+  display: none;
+}
+/* line 1682, ../sass/akvo_style.scss */
+.slick-slide.dragging img {
+  pointer-events: none;
+}
+
+/* line 1687, ../sass/akvo_style.scss */
+.slick-initialized .slick-slide {
+  display: block;
+}
+
+/* line 1691, ../sass/akvo_style.scss */
+.slick-loading .slick-slide {
+  visibility: hidden;
+}
+
+/* line 1695, ../sass/akvo_style.scss */
+.slick-vertical .slick-slide {
+  display: block;
+  height: auto;
+  border: 1px solid transparent;
+}
+
+/* line 1701, ../sass/akvo_style.scss */
+.slick-arrow.slick-hidden {
+  display: none;
+}
+
+/* line 1705, ../sass/akvo_style.scss */
+.addressbox {
+  background: #f8f8f8;
+  height: 100%;
+  padding-bottom: 20px;
+}
+
+/* line 1711, ../sass/akvo_style.scss */
+.inner-container {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+/* line 1717, ../sass/akvo_style.scss */
+form.newsletterform .tab {
+  display: none;
+}
+/* line 1720, ../sass/akvo_style.scss */
+form h3 {
+  margin-top: 0px !important;
+}
+
+/* line 1725, ../sass/akvo_style.scss */
+#map {
+  margin: 0 auto;
+}
+
+/* line 1729, ../sass/akvo_style.scss */
+.newsletterform fieldset:not(:first-of-type) {
+  display: none;
+}
+
+/* line 1733, ../sass/akvo_style.scss */
+progress {
+  position: fixed;
+  left: 0;
+  top: 50px;
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  color: #404898 !important;
+  z-index: 100;
+}
+/* line 1746, ../sass/akvo_style.scss */
+progress::-webkit-progress-bar {
+  background-color: transparent;
+}
+/* line 1749, ../sass/akvo_style.scss */
+progress::-webkit-progress-value, progress::-moz-progress-bar {
+  background-color: #404898;
+}
+
+/* line 1754, ../sass/akvo_style.scss */
+.progress-container {
+  width: 100%;
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  display: block;
+}
+
+/* line 1764, ../sass/akvo_style.scss */
+.progress-bar {
+  background-color: red;
+  width: 0%;
+  display: block;
+  height: inherit;
+}
+
+/* line 1771, ../sass/akvo_style.scss */
+.jcgmt-container {
+  display: inline-block;
+  text-align: center;
+  margin: 0 auto;
+  padding: 3px;
+  width: 16%;
+}
+/* line 1777, ../sass/akvo_style.scss */
+.jcgmt-container .jcgmt-lbl {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 5px;
+  margin: 0 auto;
+  font-weight: 300 !important;
+  line-height: 30px;
+  font-family: "Assistant", sans-serif !important;
+  height: 70px;
+  font-size: 20px;
+  display: block;
+}
+
+/* line 1791, ../sass/akvo_style.scss */
+.jcgmt-clockHolder {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* line 1798, ../sass/akvo_style.scss */
+.jcgmt-sec, .jcgmt-min, .jcgmt-hour {
+  display: block;
+  position: absolute;
+}
+
+/* line 1803, ../sass/akvo_style.scss */
+.jcgmt-rotatingWrapper {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  padding-left: 24%;
+  z-index: 100;
+}
+
+/* line 1811, ../sass/akvo_style.scss */
+.jcgmt-digital, .jcgmt-date, .hellotext {
+  font-weight: 300 !important;
+  line-height: 30px;
+  color: #000;
+  font-family: "Assistant", sans-serif !important;
+  font-size: 14px;
+  text-align: center;
+  margin-left: 8px;
+}
+
+/* line 1821, ../sass/akvo_style.scss */
+.jcgmt-container {
+  cursor: pointer !important;
+}
+/* line 1823, ../sass/akvo_style.scss */
+.jcgmt-container img.jcgmt-clock-hover {
+  display: none !important;
+}
+/* line 1827, ../sass/akvo_style.scss */
+.jcgmt-container:hover img.jcgmt-clock {
+  display: none !important;
+}
+/* line 1830, ../sass/akvo_style.scss */
+.jcgmt-container:hover img.jcgmt-clock-hover {
+  display: inline-block !important;
+}
+/* line 1834, ../sass/akvo_style.scss */
+.jcgmt-container .hellotext {
+  display: none !important;
+}
+/* line 1838, ../sass/akvo_style.scss */
+.jcgmt-container:hover .jcgmt-digital {
+  display: none !important;
+}
+/* line 1841, ../sass/akvo_style.scss */
+.jcgmt-container:hover .hellotext {
+  display: inline-block !important;
+}
+
+@media (max-width: 1200px) {
+  /* line 1848, ../sass/akvo_style.scss */
+  .jcgmt-rotatingWrapper {
+    padding-left: 18%;
+  }
+}
+@media (max-width: 970px) {
+  /* line 1854, ../sass/akvo_style.scss */
+  .jcgmt-rotatingWrapper {
+    padding-left: 9%;
+  }
+}
+@media (max-width: 768px) {
+  /* line 1860, ../sass/akvo_style.scss */
+  .jcgmt-container {
+    width: 40% !important;
+  }
+
+  /* line 1863, ../sass/akvo_style.scss */
+  .jcgmt-rotatingWrapper {
+    padding-left: 27.5%;
+  }
+
+  /* line 1866, ../sass/akvo_style.scss */
+  .jcgmt-container .jcgmt-lbl {
+    padding-top: 20px;
+    height: auto !important;
+  }
+}
+@media (max-width: 400px) {
+  /* line 1873, ../sass/akvo_style.scss */
+  .jcgmt-container {
+    width: 100% !important;
+  }
+
+  /* line 1876, ../sass/akvo_style.scss */
+  .jcgmt-rotatingWrapper {
+    padding-left: 37.5%;
+  }
+}
+@media (max-width: 768px) {
+  /* line 1882, ../sass/akvo_style.scss */
+  .massivetitle {
+    font-size: 4rem !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 5rem !important;
+  }
+
+  /* line 1888, ../sass/akvo_style.scss */
+  .carousel-caption h1 {
+    font-size: 4rem !important;
+    line-height: 5.6rem !important;
+  }
+}
+/* line 1895, ../sass/akvo_style.scss */
+#accordion-style-1 h1, #accordion-style-1 a {
+  color: #404898;
+}
+/* line 1898, ../sass/akvo_style.scss */
+#accordion-style-1 .btn-link {
+  font-weight: 400;
+  text-align: left !important;
+  color: #404898;
+  background-color: transparent;
+  text-decoration: none !important;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* line 1909, ../sass/akvo_style.scss */
+i.arrowdown {
+  float: right !important;
+  margin-top: 4px;
+}
+
+/* line 1914, ../sass/akvo_style.scss */
+.card-header {
+  text-align: left !important;
+}
+
+/* line 1918, ../sass/akvo_style.scss */
+.card:nth-child(even) .card-header {
+  background: #f8f8f8 !important;
+}
+
+/* line 1922, ../sass/akvo_style.scss */
+.card-body {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* line 1928, ../sass/akvo_style.scss */
+#accordion-style-1 .card-body hr {
+  border-top: 1px solid #404898 !important;
+}
+/* line 1932, ../sass/akvo_style.scss */
+#accordion-style-1 .card-header .btn.collapsed .fa.main {
+  display: none;
+}
+/* line 1935, ../sass/akvo_style.scss */
+#accordion-style-1 .card-header .btn .fa.main {
+  background: #404898;
+  padding: 13px 11px;
+  color: #ffffff;
+  width: 35px;
+  height: 41px;
+  position: absolute;
+  left: -1px;
+  top: 10px;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  display: block;
+}
+
+/* line 1952, ../sass/akvo_style.scss */
+.nighttime img.jcgmt-clock-hover, .nighttime img.jcgmt-clock {
+  -webkit-filter: grayscale(100%) !important;
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%) !important;
+}
+
+/* line 1959, ../sass/akvo_style.scss */
+.FilterNav {
+  border-bottom: thin solid #e8e8e8;
+  border-top: thin solid #e8e8e8;
+  margin: 30px auto;
+}
+/* line 1963, ../sass/akvo_style.scss */
+.FilterNav ul {
+  list-style: none;
+  margin: 0em auto;
+  position: relative;
+  text-align: center;
+}
+/* line 1968, ../sass/akvo_style.scss */
+.FilterNav ul li {
+  display: inline;
+  padding: 0px;
+  margin: 0em;
+}
+/* line 1972, ../sass/akvo_style.scss */
+.FilterNav ul li a {
+  padding: 0.25em 0.75em;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* line 1983, ../sass/akvo_style.scss */
+ul.team li a, ul.help li a {
+  color: #4E4A47;
+}
+/* line 1986, ../sass/akvo_style.scss */
+ul.team li a:hover, ul.help li a:hover {
+  color: #404898;
+}
+
+/* line 1991, ../sass/akvo_style.scss */
+.logopadding {
+  padding: 10px;
+}
+
+/* line 1995, ../sass/akvo_style.scss */
+.downloadlinks {
+  margin-top: 10px;
+  text-align: center;
+}
+/* line 1998, ../sass/akvo_style.scss */
+.downloadlinks a {
+  padding: 5px;
+}
+
+/* line 2003, ../sass/akvo_style.scss */
+.bluebg .downloadlinks a {
+  color: #fff !important;
+}
+
+/* line 2007, ../sass/akvo_style.scss */
+.logogroup {
+  clear: both;
+}
+/* line 2009, ../sass/akvo_style.scss */
+.logogroup img {
+  width: 70%;
+}
+
+/* AKVO COLOUR OVERRIDES */
+/* line 2016, ../sass/akvo_style.scss */
+.gray {
+  color: #333 !important;
+}
+
+/* line 2020, ../sass/akvo_style.scss */
+.graybg {
+  background: #333 !important;
+  background-color: #333 !important;
+}
+
+/* line 2025, ../sass/akvo_style.scss */
+.blue {
+  color: #404898 !important;
+}
+
+/* line 2029, ../sass/akvo_style.scss */
+.bluebg {
+  background: #404898 !important;
+  background-color: #404898 !important;
+}
+
+/* line 2034, ../sass/akvo_style.scss */
+.green {
+  color: #03AD8C !important;
+}
+
+/* line 2038, ../sass/akvo_style.scss */
+.greenbg {
+  background: #03AD8C !important;
+  background-color: #03AD8C !important;
+}
+
+/* line 2043, ../sass/akvo_style.scss */
+.red {
+  color: #EA5547 !important;
+}
+
+/* line 2047, ../sass/akvo_style.scss */
+.redbg {
+  background: #EA5547 !important;
+  background-color: #EA5547 !important;
+}
+
+/* line 2052, ../sass/akvo_style.scss */
+.pink {
+  color: #E04D95 !important;
+}
+
+/* line 2056, ../sass/akvo_style.scss */
+.pinkbg {
+  background: #E04D95 !important;
+  background-color: #E04D95 !important;
+}
+
+/* line 2061, ../sass/akvo_style.scss */
+.white {
+  color: #fff !important;
+}
