@@ -43,28 +43,43 @@ wp_2016_sub <- wp_2016_processed %>%
          "Improved" = "improved",
          "Unimproved" = "unimproved",
          .default="unimproved")) %>%
-   filter(ADM2 == "Kambia")
-  
+   filter(ADM2 == "Kambia") %>%
+  mutate(Functionality = recode(
+    Functionality,
+    "No - Broken down" = "Not functional",
+    "No - Still under construction" = "Not functional",
+    "No - Under rehabilitation" = "Not functional",
+    "Yes – Functional (but not in use)" = "Not functional",
+    "Yes - But damaged" = "Not functional",
+    "Yes – Functional (and in use)" = "Functional and in use")) 
+
 ```
 
 # Introduction 
 
-There seem to be large discrepancies between the number of people that are reported having access to water, when different methodologies for estimating water access are used. In this overview three ways of estimating water access in the region Kambia will be shown to demonstrate this difference. The region was chosen because in a country comparison it showed large differences when choosing a different methodology. 
+Access to an improved water source is the first step towards achieving safe water coverage for a population. When different methodologies are used to report coverage, wide discrepancies appear in the reported figures for people with access to safe water and those left unserved. However, planners and policy makers require correct and updated information to estimate the real need and to assess the scale of vulnerabilities across unserved / underserved populations, as well as make projections for future allocations. In this overview, we demonstrate how such differences appear by using three different ways of estimating water access in the region of Kambia.  
 
 # Methodology
-Country governments are required to report their progress on all the three key indicators of SDG and grade themselves in the JMP ladder. It is relatively easier to measure coverage by recording the number of water points that are installed, however one requirement of JMP to reach the level "basic" is that the water can be fetched in 30 minutes. This means a family should be able to make a round trip, including queuing, within 30 minutes. The general measurement of water coverage does not take population density taken into account. Countries face challenges in recording and updating their data either due to lack of resources or capacity to collect information about SDG. With this example we want to show the differences in coverage when accounting for population density. 
+Many  countries continue to face challenges in recording and updating their water coverage data, either due to lack of resources or the capacity to collect information about SDG parameters. Generally, during reporting, measurements of water coverage seldom take population density into account. However, using our example of data from Kambia we can highlight the extent of differences that appear in coverage figures when the population density is also taken into account.
 
-## Example 1: Coverage based on sphere guidelines
+## Measuring coverage based on *sphere guidelines*^[https://spherestandards.org/wp-content/uploads/Sphere-Handbook-2018-EN.pdf]
 
-The following table shows the water points in the district Kambia at time of the 2016 water point mapping. The coverage is determined using the Sphere guidelines, which are guidelines to determine the number of people a specific type of water point can be expected serve, if it functions well. There are 4 categories in this guideline, mainly:  "tap", "hand pump", "open hand well" and "mechanized well". 
+The following table shows the water points in the district Kambia at time of the 2016 water point mapping. The three parameters used to describe the different categories of water points include:
+
+- Improved water points (tap, handpump, open hand well, mechanised hand well)
+- Unimproved water points (unprotected well, pond, river etc.)
+- Total water points (totalImproved and unimproved)
+- Functional / not functional water points
+
+The coverage has been determined using the Sphere guidelines, which are guidelines to determine the number of people a specific type of water point can be expected to serve, if it functions well. 
+
 
 ```{r example_1, echo=FALSE, message=FALSE, warning=FALSE}
-
 
 table1 <- wp_2016_sub %>%
   group_by(ADM2) %>%
   summarise(
-    "Number of water points" = n(),
+    "Total no. of water points" = n(),
     "Possible coverage (nr of people)" = sum(sphere_nr_people, na.rm=TRUE)
   ) %>% 
   kbl("html") %>%
@@ -74,8 +89,9 @@ table2 <- wp_2016_sub %>%
   group_by(ADM2, sdg_improved_source) %>%
   summarise(
     "Number of water points" = n(),
-    "Possible coverage (nr of people)" = sum(sphere_nr_people, na.rm=TRUE)
+    "Potential coverage (nr of people)" = sum(sphere_nr_people, na.rm=TRUE)
   ) %>% 
+  rename("Improved/ unimproved water point" = sdg_improved_source) %>%
   kbl("html") %>%
   kable_styling("striped", position = "center", font_size = 11, full_width = FALSE)
 
@@ -85,17 +101,11 @@ table3 <- wp_2016_sub %>%
     "Number of water points" = n(),
     "Possible coverage (nr of people)" = sum(sphere_nr_people, na.rm=TRUE)
   ) %>% 
+  rename("Functional / not  functional" = Functionality) %>%
   kbl("html") %>%
   kable_styling("striped", position = "center", font_size = 11, full_width = FALSE)
 
 table4 <- wp_2016_sub %>%
-   mutate(Functionality = recode(Functionality,
-                                       "No - Broken down" = "Not functional",
-                                       "No - Still under construction" = "Not functional",
-                                       "No - Under rehabilitation" = "Not functional",
-                                       "Yes – Functional (but not in use)" = "Functional",
-                                       "Yes - But damaged" = "Functional",
-                                       "Yes – Functional (and in use)" = "Functional")) %>%
   group_by(Functionality, sdg_improved_source) %>%
   summarise(
     "Number of water points" = n()) %>% 
@@ -126,15 +136,7 @@ wp_coverage_ministry_pop_data_improved <- wp_2016_sub %>%
   mutate("Percentage of the population served (%)" = round(`Possible coverage (nr of people)`/`2016`,2)*100) %>%
   select(ADM2, sdg_improved_source, "Number of water points","Percentage of the population served (%)" ) 
 
-
 wp_coverage_ministry_pop_data_functional <- wp_2016_sub %>%
-   mutate(Functionality = recode(Functionality,
-                                       "No - Broken down" = "Not functional",
-                                       "No - Still under construction" = "Not functional",
-                                       "No - Under rehabilitation" = "Not functional",
-                                       "Yes – Functional (but not in use)" = "Functional",
-                                       "Yes - But damaged" = "Functional",
-                                       "Yes – Functional (and in use)" = "Functional")) %>%
   group_by(ADM2, sdg_improved_source, Functionality) %>%
   summarise("Number of water points" = n(),
     "Possible coverage (nr of people)" = sum(sphere_nr_people, na.rm=TRUE)) %>%
@@ -146,18 +148,16 @@ wp_coverage_ministry_pop_data_functional <- wp_2016_sub %>%
 wp_coverage_ministry_pop_data_functional <- wp_coverage_ministry_pop_data_functional %>%
   mutate(csum = cumsum(`Percentage of the population served (%)`))
 
-pie_data_1 <- data.frame(methodology = c("Ministry data all water points",
-                                         "Ministry data improved water points",
+pie_data_1 <- data.frame(methodology = c("Ministry data improved water points",
                                          "Ministry data improved and functional water points"),
-                         percentage_served = c(82, 76, 43)) %>%
+                         percentage_served = c(76, 43)) %>%
   mutate(percentage_not_served = 100 - percentage_served) %>% melt()
 
 pie_data_1 <- pie_data_1  %>%
-  mutate(methodology = str_wrap(methodology, width = 20)) %>%
+  mutate(methodology = str_wrap(methodology, width = 25)) %>%
   mutate(methodology = factor(methodology,
-                              levels = c("Ministry data all\nwater points",
-                                         "Ministry data\nimproved water\npoints",
-                                         "Ministry data\nimproved and\nfunctional water\npoints")))
+                              levels = c("Ministry data improved\nwater points",
+                                         "Ministry data improved\nand functional water\npoints")))
 
 table5 <- wp_coverage_ministry_pop_data_functional %>%
   kbl("html") %>%
@@ -168,35 +168,43 @@ table5 <- wp_coverage_ministry_pop_data_functional %>%
 
 <br> `r table1` <br> 
 
-As you can see from table 1 Kambia has 750 water points that have the ability to cover about 0.29 million people. Of these water points 686 are "improved", which  that have the ability to cover 0.27 million people, see table 2. 
+As you can see from table 1 Kambia reported  750 water points that have the potential  to cover about 0.29 million people. Of these water points 686 have been categorised as “improved”, and can be able to serve approximately 0.27 million people, see table 2.
 
 <br> `r table2` <br> 
 
-Table 3 shows that 750 water point 433 were functional at time of the data collection, and in table 4 you can see out of the 433, 399 were classified as "improved". 
+Table 3 shows that of the 750 water points, 433 reported to be functional at time of the data collection, and table 4 shows that out of these 433 functional points, 399 were reported in the  “improved” category. 
 
 <br> `r table3` <br> 
 
 <br> `r table4` <br>
 
-Based on a national inventory in 2016, there were `r pop_projections[pop_projections$ADM2 == "Kambia","2016"]` people living in Kambia in 2016, and based on projections this would have grown to `r pop_projections[pop_projections$ADM2 == "Kambia","2018"]` by 2018. If we were simply to combine the population with the possible coverage, in Kambia  `r round(291950/pop_projections[pop_projections$ADM2 == "Kambia","2016"],2)*100`% of the population is served by the water from the water points. When combining that with the type of water point 77% of the population in Kambia is served by improved water points, see table 5.
+Based on a national inventory in 2016^[https://washdata-sl.org/water-point-data/], there were approximately`r pop_projections[pop_projections$ADM2 == "Kambia","2016"]` people living in Kambia. Going by the projections,  population figures of Kambia were expected to grow up to `r pop_projections[pop_projections$ADM2 == "Kambia","2018"]` by 2018.  If we were to measure coverage by simply looking at the reported population in Kambia, `r round(291950/pop_projections[pop_projections$ADM2 == "Kambia","2016"],2)*100`% of the population would be shown as ‘served’ by the 750 (total) water points. When the same data is  distinguished between improved and unimproved categories, only 77% of the population in Kambia was found to be served by improved water points, see table 5. When the data is further disaggregated by functionality, i.e. whether the water points are functional or not, the coverage proportions are further reduced to 43%. This analysis helps us to understand the ‘real coverage’ and asserts the need for disaggregating data by type of source and functionality to decide the ‘real need’ for water supply across populations.
 
 <br> `r table5` <br> 
 
 The following graph summarizes the results from above, showing the importance of including information about the water source type and the functionality status when determining water point access.
 
 ```{r pie1, fig.align="center", fig.width=6, fig.height=6, fig.cap="Figure 1: Estimated basic water coverage  ", echo=FALSE, message=FALSE, warning=FALSE}
+pie_data_1 <- pie_data_1 %>%
+  mutate(variable = recode(
+    variable, 
+    percentage_served = "Projected\npercentage served", 
+    percentage_not_served = "Projected\npercentage not served"))
+
 ggplot(data = pie_data_1, aes(x = "", y = value, fill=variable )) + 
   geom_bar(stat = "identity", position = position_fill()) +
-  scale_fill_manual(values = c( "#02818a", "#a6bddb"), labels=c("Population served", "Population not served")) +
-  geom_text(aes(label = paste0(value, "%")), position = position_fill(vjust = 0.5)) +
+  scale_fill_manual(values = c( "#7868E6", "#B8B5FF")) +
+  geom_text(aes(label = paste0(value, "%")), position = position_fill(vjust = 0.5), size=6) +
   coord_polar(theta = "y") +
   facet_wrap(.~methodology, ncol=4)  +
-  theme(plot.title = element_text(size=8),
+  theme(legend.position = "bottom",
+        # plot.title = element_text(size=8),
+        strip.text = element_text(size=12),
+        legend.title = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.y = element_blank()) + 
-  theme(legend.position='right') + 
   guides(fill=guide_legend(nrow=2, byrow=TRUE))
 
 ```
@@ -209,23 +217,121 @@ sl.shape.data <- ggplot2::fortify(sl.shape, region='NAME') %>%
 
 fb_pop_sl <- read.csv2(here("data/raw", "population_sle_2019-07-01.csv"), sep=",")
 fb_pop_sl <- fb_pop_sl %>% 
-  mutate(ID = paste0("V", rownames(fb_pop_sl)))
-
-fb_pop_kambia <- fb_pop_sl %>%
+  mutate(ID = paste0("V", rownames(fb_pop_sl))) %>%
   mutate(Lon = as.numeric(Lon)) %>%
   mutate(Lat = as.numeric(Lat)) %>%
-  mutate(Population = as.numeric(Population)) %>%
+  mutate(Population = as.numeric(Population)) 
+
+fb_pop_kambia <- fb_pop_sl %>%
   filter(Lon > -14 & Lon < -12) %>%
   filter(Lat > 8 & Lat < 10)
 
 FB_density_admin <- st_read(here("data/processed", "FB density with admin level.shp"))
 ```
 
-This shows that only looking at the possible coverage does not tell the complete story of water supply. Adding current population numbers is critical for identifying vulnerable areas. 
+This shows that only looking at the possible coverage does not tell the complete story of water supply. Adding current population numbers is critical for identifying vulnerable areas.
 
-Kambia is about 3000 squared kilometers and is estimated to have about 800 villages. When you take into account the requirement of the JMP that water should be collectible within a 30 minute round trip, it is important to know if the water points are dispersed is a way that fits the population density. 
+Kambia is about 3000 square kilometers and is estimated to have about 800 villages. When you take into account the requirement of the JMP that water should be collectible within a 30 minute round trip, it is important to know if the water points are dispersed in a way that fits the population density.
 
-The map below shows the location of the different water points in Kambia with the functionality status. The highest concentration of water points seems to be in the middle, and more to the south, and the lowest concentration is in the outer points of the district. Along the eastern boarder there seem to be quite some not functional water points. 
+The map below shows the population density of Kambia based on the 2019 Facebook density data that determines the number of people that live on a 30 meter square are. The closer together the dots are the more dense the population, and the darker the color, the more people live within a square of 30 m2. In line with the water point density, the population seems the least concentrated in the outer points of the district, and the most concentrated in the center, and to the south. One big difference is the area on the eastern boarder in the center of the district. There seem to be living a lot of people in this area, however this is not reflected in the water point density map.
+
+```{r pop_density_and_wp, fig.show="hold", out.width="50%"}
+
+par(mar = c(4, 4, .1, .1))
+
+FB_density_admin_kambia <- FB_density_admin %>% 
+  filter(ADM2 == "Kambia") %>%
+  mutate(Population = as.numeric(Population)) %>%
+  st_transform(4269)
+
+# POP DENSITY
+ggplot() +
+  geom_sf(data = FB_density_admin_kambia, aes(color=Population), alpha=0.8, size = 1) +
+  theme_minimal() +
+  scale_color_gradient(low="#d8c2f3", high="#845ec2", breaks=c(10,15,20,25,30,35)) +
+  labs(title="Population density in Kambia", color="")
+
+
+## IMPROVED
+ggplot() +
+  geom_point(data=wp_2016_sub, 
+             aes(x=Longitude, y=Latitude, fill=sdg_improved_source), shape=25,  stroke = 0.2, alpha=0.8)  +
+  scale_fill_manual(values=c("#1EAFED", "#FFCD60")) +
+  labs(title="Water point improved status", x="", y="") +
+  theme(legend.position = "right",
+        legend.title = element_blank(),
+        legend.text = element_text(size=8),
+        plot.title = element_text(size=14),
+        axis.text.x = element_text(size=8),
+        axis.text.y = element_text(size=8),
+        axis.ticks = element_blank())
+
+## FUNCTIONALITY
+ggplot() +
+  geom_point(data=wp_2016_sub, 
+             aes(x=Longitude, y=Latitude, fill=Functionality), shape=25,  stroke = 0.2, alpha=0.8)  +
+  scale_fill_manual(values=c("#A9F1DF", "#FC5404")) +
+  labs(title="Water point functionality status", x="", y="") +
+  theme(legend.position = "right",
+        legend.title = element_blank(),
+        legend.text = element_text(size=8),
+        plot.title = element_text(size=14),
+        axis.text.x = element_text(size=8),
+        axis.text.y = element_text(size=8),
+        axis.ticks = element_blank())
+
+```
+
+```{r graphs_combined,  echo=FALSE, message=FALSE, warning=FALSE}
+
+ggplot() +
+  geom_sf(data = FB_density_admin_kambia, aes(color=Population), alpha=0.8, size = 1) +
+  theme_minimal() +
+  scale_color_gradient(low="#d8c2f3", high="#845ec2", breaks=c(10,15,20,25,30,35)) +
+  geom_point(data=wp_2016_sub, 
+             aes(x=Longitude, y=Latitude, fill=sdg_improved_source), shape=25,  stroke = 0.2, alpha=0.8)  +
+  scale_fill_manual(values=c("#1EAFED", "#FFCD60")) +
+  labs(title="Kambia: population density and water points", x="", y="") +
+  theme(legend.position = "right",
+        legend.title = element_blank(),
+        legend.text = element_text(size=8),
+        plot.title = element_text(size=14),
+        axis.text.x = element_text(size=8),
+        axis.text.y = element_text(size=8),
+        axis.ticks = element_blank())
+
+# improved #1EAFED
+# unimproved #FFCD60
+
+# Functionality? "#A9F1DF", "#FC5404"
+
+# green: low="#94d8d6", high="#018383"
+# orange: #f98404 #ffcaa0
+# purple: #845ec2 #d8c2f3
+
+ggplot() +
+  geom_sf(data = FB_density_admin_kambia, aes(color=Population), alpha=0.8, size = 1) +
+  theme_minimal() +
+  scale_color_gradient(low="#d8c2f3", high="#845ec2", breaks=c(10,15,20,25,30,35)) +
+  geom_point(data=wp_2016_sub %>% 
+               filter(sdg_improved_source == "improved") %>%
+               filter(Functionality == "Functional and in use"), 
+             aes(x=Longitude, y=Latitude, fill=Functionality), shape=25,  stroke = 0.2, alpha=0.8)  +
+  scale_fill_manual(values=c("#1EAFED", "#FFCD60"), labels=c("Improved and functional", "Not functional")) +
+  labs(title="Kambia: population density water points improved and functional", x="", y="") +
+  theme(legend.position = "right",
+        legend.title = element_blank(),
+        legend.text = element_text(size=8),
+        plot.title = element_text(size=14),
+        axis.text.x = element_text(size=8),
+        axis.text.y = element_text(size=8),
+        axis.ticks = element_blank())
+
+
+```
+
+
+The map below shows the location of the different water points in Kambia with the functionality status. The highest concentration of water points seems to be in the middle, and more to the south, and the lowest concentration is in the outer points of the district. Along the eastern border there seem to be quite some non functional water points.
 
 
 ```{r wp_density, echo=FALSE, message=FALSE, warning=FALSE}
@@ -235,7 +341,7 @@ ggplot(sl.shape.data) +
   geom_point(data=wp_2016_sub,
              aes(x=Longitude, y=Latitude, color=Functionality),
              size = 2, alpha=1, shape=20) +
-  scale_color_manual(values=c("#810f7c","#a964a2","#ceaac9","#a9c4ab","#62986a","#006d2c")) +
+  scale_color_manual(values=c("#006d2c", "#810f7c")) +
   # theme(panel.grid.major = element_line("white")) +
   labs(title="2016 Waterpoint mapping SL: Kambia", x="", y="") +
   theme(legend.position = "right",
@@ -247,21 +353,6 @@ ggplot(sl.shape.data) +
         axis.ticks = element_blank())
 ```
 
-The map below shows the population density of Kambia based on the 2019 Facebook density data that determines the number of people that live on a 30 meter square are. The closer together the dots are the more dense the population, and the darker the color, the more people live within a square of 30 m2. In line with the water point density, the population seems the least concentrated in the outer points of the district, and the most concentrated in the center, and to the south. One big difference is the area on the eastern boarder in the center of the district. There seem to be living a lot of people in this area, however this is not reflected in the water point density map.
-
-```{r pop_density, echo=FALSE, message=FALSE, warning=FALSE}
-FB_density_admin_kambia <- FB_density_admin %>% 
-  filter(ADM2 == "Kambia") %>%
-  mutate(Population = as.numeric(Population))
-
-ggplot() +
-  geom_sf(data = FB_density_admin_kambia, aes(color=Population)) +
-  theme_minimal() +
-  scale_color_distiller(palette = 'RdYlBu', breaks=c(10,15,20,25,30,35)) +
-  # scale_color_gradient(low="#e5f5f9", high="#2ca25f", breaks=c(10,15,20,25,30,35)) +
-  labs(title="Population density in Kambia", color="Nr of people per 30m2")
-
-```
 If we want to see how many people live close enough to the water points for the water supply to be considered "basic" water service level, we need to combine the population density data with the water point locations. By taking an area around the water point and determining how many people live within that area, we can first determine the population that is close enough to the water point. Next, we will compare the amount of people to the amount of people the water point can serve based on the sphere guidelines. By looking at the intersection and comparing that to the total population we can determine the percentage of the population actually served. Below we will follow these steps one by one.  
 
 1. Draw a circle around the water points that represents the 30 min round trip. We will use a 500m radius, based on ..
@@ -320,14 +411,15 @@ population_dens_per_wp <- population_dens_per_wp %>%
   mutate(Percentage_served_within_circle = round(sphere_nr_people/Population_within_circle,2)*100) %>%
   mutate(percentage_actually_served = ifelse(Percentage_served_within_circle > 100, 100, Percentage_served_within_circle)) 
 
-wp_2016_int_circles %>% 
-  left_join(population_dens_per_wp) %>%
-  ggplot() +
-  geom_sf(aes(color=percentage_actually_served)) +
+pop_served <- wp_2016_int_circles %>%
+  st_transform(4269) %>% 
+  left_join(population_dens_per_wp) 
+
+ggplot() +
+  geom_sf(data = pop_served, aes(color=percentage_actually_served), alpha=0.8, size = 1) +
   theme_minimal() +
-  scale_color_distiller(palette = 'YlOrRd', breaks=c(100,75,50,25,0)) +
-  # scale_color_gradient(low="#e5f5f9", high="#2ca25f", breaks=c(10,15,20,25,30,35)) +
-  labs(title="Percentage of the population served", color="percentage_actually_served")
+  scale_color_gradient(low="#d43d51", high="#6aaa96", breaks=c(25, 50, 75, 100)) +
+  labs(title="Projected percentage of the population served", color="")
 
 
 ```
@@ -540,37 +632,22 @@ functional_plus_wp_coverage_fb_density %>%
 
 ```{r visuals1, echo=FALSE, message=FALSE, warning=FALSE}
 
-pie_data <- wp_coverage_ministry_pop_data_improved %>% 
-  filter(sdg_improved_source == "improved") %>%
-  select(ADM2, `Percentage of the population served (%)`) %>%
-  rename(percentage_served = `Percentage of the population served (%)`) %>% 
+pie_data <- improved_wp_coverage_fb_density %>% 
+  select(ADM2, "Actual percentage of the population served") %>%
+  rename(percentage_served = `Actual percentage of the population served`) %>% 
   mutate(percentage_not_served = 100 - percentage_served) %>% melt() %>%
-  mutate(methodology = "District level population data improved sources") %>% 
-  full_join(
-    wp_coverage_fb_density %>% 
-      select(ADM2, "Actual percentage of the population served") %>%
-      rename(percentage_served = `Actual percentage of the population served`) %>% 
-      mutate(percentage_not_served = 100 - percentage_served) %>% melt() %>%
-      mutate(methodology = "Population density data (30m2)")) %>% 
-  full_join(
-    improved_wp_coverage_fb_density %>% 
-      select(ADM2, "Actual percentage of the population served") %>%
-      rename(percentage_served = `Actual percentage of the population served`) %>% 
-      mutate(percentage_not_served = 100 - percentage_served) %>% melt() %>%
-      mutate(methodology = "Population density data (30m2) improved sources")) %>% 
+  mutate(methodology = "Population density data, improved sources") %>% 
   full_join(
     functional_wp_coverage_fb_density %>% select(ADM2, "Actual percentage of the population served") %>%
       rename(percentage_served = `Actual percentage of the population served`) %>% 
       mutate(percentage_not_served = 100 - percentage_served) %>% melt() %>%
-      mutate(methodology = "Population density data (30m2) improved and functional sources"))
+      mutate(methodology = "Population density data, improved and functional sources"))
 
 pie_data <- pie_data  %>%
   mutate(methodology = str_wrap(methodology, width = 20)) %>%
   mutate(methodology = factor(methodology, 
-                              levels = c("District level\npopulation data\nimproved sources",
-                                         "Population density\ndata (30m2)",
-                                         "Population density\ndata (30m2) improved\nsources",
-                                         "Population density\ndata (30m2) improved\nand functional\nsources")))
+                              levels = c("Population density\ndata, improved\nsources",
+                                         "Population density\ndata, improved\nand functional\nsources")))
 
 ggplot(data = pie_data, aes(x = "", y = value, fill=variable )) + 
   geom_bar(stat = "identity", position = position_fill()) +
