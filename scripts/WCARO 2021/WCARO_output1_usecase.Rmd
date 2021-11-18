@@ -272,11 +272,23 @@ In Example 2, we first look at the population density of the location and then  
 
 
 ```{r example_2, message=FALSE, warning=FALSE, include=FALSE}
-# Shape file data
+
+# SL shape file data
 sl.shape <-read_sf(dsn = here::here("data/raw/SIL_admin_SHP/", "SIL.shp"))
 sl.shape.data <- ggplot2::fortify(sl.shape, region='NAME') %>%
-  filter(ADM2 == "Kambia")
+  filter(ADM2 == "Kambia") %>%
+  st_set_crs(4326) %>%
+  st_transform(3035)
 
+# SL waterways shape file data
+sl.water.shape <-read_sf(dsn = here::here("data/raw/shapefiles/waterways/", "waterways.shp"))
+sl.water.shape <- ggplot2::fortify(sl.water.shape) %>%
+  st_set_crs(4326) %>%
+  st_transform(3035)
+
+water_ways_kambia <- st_intersection(sl.shape.data, sl.water.shape)
+
+# Population data
 fb_pop_sl <- read.csv2(here("data/raw", "population_sle_2019-07-01.csv"), sep=",")
 fb_pop_sl <- fb_pop_sl %>%
   mutate(ID = paste0("V", rownames(fb_pop_sl))) %>%
@@ -308,9 +320,11 @@ ggplot() +
 
 ## IMPROVED
 ggplot() +
+  geom_sf(data = water_ways_kambia %>%
+  st_transform(4269), size = 0.5, color = "steelblue") +
   geom_point(data=wp_2016_sub,
              aes(x=Longitude, y=Latitude, fill=sdg_improved_source), shape=25,  stroke = 0.2, alpha=0.8)  +
-  scale_fill_manual(values=c("#1EAFED", "#FFCD60")) +
+  scale_fill_manual(values=c("green", "#FFCD60")) +
   labs(title="Figure 3: Water points in Kambia", x="", y="", caption="National water point mapping 2016") +
   theme(legend.position = "right",
         legend.title = element_blank(),
@@ -319,6 +333,8 @@ ggplot() +
         axis.text.x = element_text(size=8),
         axis.text.y = element_text(size=8),
         axis.ticks = element_blank())
+
+#"#1EAFED", "#FFCD60"
 ```
 
 Figure 2 shows the distribution of  people and water points in Kambia.  On the left is the map showing the population density of Kambia, based on the 2019 Facebook density data. The darker the points on the map,  the more dense is the population. The population of Kambia  seems the least concentrated in the outer parts of the district, and the most number of people live  in the center and to the south western parts of the District.       
